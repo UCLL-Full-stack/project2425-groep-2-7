@@ -1,11 +1,11 @@
-import { Player } from './player';
+import { User } from './user';
 
 export class Team {
-    readonly name: string;
-    readonly country: string;
-    readonly players: Player[];
+    private name: string;
+    private country: string;
+    private players: User[];
 
-    constructor(team: { name: string; country: string; players?: Player[] }) {
+    constructor(team: { name: string; country: string; players?: User[] }) {
         this.name = team.name;
         this.country = team.country;
         this.players = team.players ?? [];

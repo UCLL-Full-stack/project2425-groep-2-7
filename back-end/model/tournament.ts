@@ -1,10 +1,10 @@
 import { Team } from './team';
 
 export class Tournament {
-    readonly name: string;
-    readonly location: string;
-    readonly game: string;
-    readonly teams: Team[];
+    private name: string;
+    private location: string;
+    private game: string;
+    private teams: Team[];
 
     constructor(tournament: { name: string; location: string; game: string; teams?: Team[] }) {
         this.name = tournament.name;
