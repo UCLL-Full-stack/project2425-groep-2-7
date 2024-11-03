@@ -1,7 +1,6 @@
 import { User} from "../model/user";
-const users = new Array<User>();
 
-const users1 = [
+const users = [
     new User({
         age: 21,
         name: "Daan Schoenaers",

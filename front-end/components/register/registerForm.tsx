@@ -2,7 +2,6 @@ import UserService from "@/services/UserService";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Header from "../header";
 
 const RegisterForm: React.FC = () => {
   const [age, setAge] = useState(0);
@@ -76,9 +75,10 @@ const RegisterForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    clearErrors();
 
     if (validate()) {
-      const user = { age, name, country, description, email, password, role };
+      const user = { age, name, country, description, email, password, role }
       const response = await UserService.registerUser(user);
       if (response.ok) {
         setStatus("User successfully registered");
@@ -94,103 +94,97 @@ const RegisterForm: React.FC = () => {
       <Head>
         <title>User Registration</title>
       </Head>
-      <Header />
-      <main className="flex items-center justify-center">
-        <form className="p-6" onSubmit={handleSubmit}>
-          <h1 className="text-center mb-2">User Registration</h1>
+      <main className="flex items-center justify-center min-h-screen bg-teal-100">
+        <form className="bg-teal-800 text-white rounded-lg shadow-lg p-8 w-full max-w-md" onSubmit={handleSubmit}>
+          <h1 className="text-3xl font-bold text-center text-teal-300 mb-6">User Registration</h1>
 
-          {status && <div className="text-red-500">{status}</div>}
+          {status && <div className="text-red-500 mb-4">{status}</div>}
+          
+          <div className="mb-4">
+            <label htmlFor="age" className="block mb-1">Age</label>
+            <input
+              type="number"
+              id="age"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setAge(parseInt(e.target.value))}
+            />
+            {ageError && <p className="text-red-500">{ageError}</p>}
+          </div>
 
-          <label htmlFor="age" className="block">
-            Age
-          </label>
-          <input
-            type="number"
-            id="age"
-            className="w-full p-2 mb-2 border border-black rounded-2xl
-             focus:outline-none"
-            onChange={(e) => setAge(parseInt(e.target.value))}
-          ></input>
-          {emailError && <p className="text-red-500">{emailError}</p>}
+          <div className="mb-4">
+            <label htmlFor="name" className="block mb-1">Name</label>
+            <input
+              type="text"
+              id="name"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setName(e.target.value)}
+            />
+            {nameError && <p className="text-red-500">{nameError}</p>}
+          </div>
 
-          <label htmlFor="name" className="block">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="w-full p-2 mb-2 border border-black rounded-2xl focus:outline-none"
-            onChange={(e) => setName(e.target.value)}
-          ></input>
-          {nameError && <p className="text-red-500">{nameError}</p>}
+          <div className="mb-4">
+            <label htmlFor="country" className="block mb-1">Country</label>
+            <input
+              type="text"
+              id="country"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setCountry(e.target.value)}
+            />
+            {countryError && <p className="text-red-500">{countryError}</p>}
+          </div>
 
-          <label htmlFor="country" className="block">
-            Country
-          </label>
-          <input
-            type="text"
-            id="country"
-            className="w-full p-2 mb-2 border border-black rounded-2xl focus:outline-none"
-            onChange={(e) => setCountry(e.target.value)}
-          ></input>
-          {countryError && <p className="text-red-500">{countryError}</p>}
+          <div className="mb-4">
+            <label htmlFor="description" className="block mb-1">Description</label>
+            <input
+              type="text"
+              id="description"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            {descriptionError && <p className="text-red-500">{descriptionError}</p>}
+          </div>
 
-          <label htmlFor="description" className="block">
-            Description
-          </label>
-          <input
-            type="text"
-            id="description"
-            className="w-full p-2 mb-2 border border-black rounded-2xl focus:outline-none"
-            onChange={(e) => setDescription(e.target.value)}
-          ></input>
-          {descriptionError && (
-            <p className="text-red-500">{descriptionError}</p>
-          )}
+          <div className="mb-4">
+            <label htmlFor="email" className="block mb-1">Email</label>
+            <input
+              type="email"
+              id="email"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && <p className="text-red-500">{emailError}</p>}
+          </div>
 
-          <label htmlFor="email" className="block">
-            Email
-          </label>
-          <input
-            type="text"
-            id="email"
-            className="w-full p-2 mb-2 border border-black rounded-2xl focus:outline-none"
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-          {emailError && <p className="text-red-500">{emailError}</p>}
+          <div className="mb-4">
+            <label htmlFor="password" className="block mb-1">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {passwordError && <p className="text-red-500">{passwordError}</p>}
+          </div>
 
-          <label htmlFor="password" className="block">
-            Password
-          </label>
-          <input
-            type="password"
-            id="pass"
-            className="w-full p-2 mb-2 border border-black rounded-2xl focus:outline-none"
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-          {passwordError && <p className="text-red-500">{passwordError}</p>}
-
-          <label htmlFor="role" className="block">
-            Role
-          </label>
-          <select
-            id="role"
-            defaultValue="default"
-            className="w-full p-2 mb-2 border border-black rounded-2xl"
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="default" disabled hidden>
-              Select Role
-            </option>
-            <option value="department1">Role1</option>
-            <option value="department2">Role2</option>
-            <option value="department3">Role3</option>
-          </select>
-          {roleError && <p className="text-red-500">{roleError}</p>}
+          <div className="mb-4">
+            <label htmlFor="role" className="block mb-1">Role</label>
+            <select
+              id="role"
+              defaultValue="Admin"
+              className="w-full p-2 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="default" disabled hidden>Select Role</option>
+              <option value="Player">Player</option>
+              <option value="Role2">Admin</option>
+              <option value="Role3">Coach</option>
+            </select>
+            {roleError && <p className="text-red-500">{roleError}</p>}
+          </div>
 
           <button
             type="submit"
-            className="w-full p-2 mt-2 border border-black rounded-2xl hover:bg-gray-200 text-lg"
+            className="w-full bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
           >
             Register
           </button>

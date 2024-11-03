@@ -6,7 +6,6 @@ const Register: React.FC = () => {
       <head>
         <title>Register</title>
       </head>
-      <header />
       <main>
         <h1>Register</h1>
         <section>

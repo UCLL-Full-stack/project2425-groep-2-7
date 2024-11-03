@@ -7,5 +7,4 @@ export type User = {
   description: string;
   email: string;
   password: string;
-  role: String;
 };

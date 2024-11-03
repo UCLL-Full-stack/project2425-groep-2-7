@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "NodeNext",
         "target": "es6",
         "rootDir": "./",
         "strict": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "moduleResolution": "nodenext"
     }
 }
