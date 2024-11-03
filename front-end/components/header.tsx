@@ -2,28 +2,28 @@ import Link from "next/link";
 
 const Header: React.FC = () => {
   return (
-    <header className="p-3 mb-3 border-bottom bg-gradient-to-br from-gray-900 to-gray-600 flex flex-col items-center">
-      <a className="flex  mb-2 md:mb-5 text-red-50 text-3xl text-gray-300">
+    <header className="p-5 mb-6 border-b border-gray-700 bg-gradient-to-br from-gray-900 to-gray-600 flex flex-col items-center">
+      <h1 className="mb-3 md:mb-6 text-red-50 text-4xl font-bold">
         Tournamentz
-      </a>
-      <nav className="items-center flex md:flex-row flex-col">
+      </h1>
+      <nav className="flex flex-col md:flex-row md:space-x-14 space-y-2 md:space-y-0">
         <Link
           href="/"
-          className=" px-4 text-xl text-white  hover:bg-gray-600 rounded-lg"
+          className="px-4 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
         >
           Home
         </Link>
 
         <Link
           href="/users"
-          className=" px-4 text-xl text-white  hover:bg-gray-600 rounded-lg"
+          className="px-4 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
         >
           Users
         </Link>
 
         <Link
-          href="/register"
-          className=" px-4 text-xl text-white  hover:bg-gray-600 rounded-lg"
+          href="/registration"
+          className="px-4 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
         >
           Register
         </Link>
