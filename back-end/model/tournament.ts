@@ -16,4 +16,15 @@ export class Tournament {
     equals({ name, location, game }: { name: string; location: string; game: string }): boolean {
         return this.name === name && this.location === location && this.game === game;
     }
+
+    getName() {
+        return this.name;
+    }
+
+    getLocation() {
+        return this.location;
+    }
+    getGame() {
+        return this.game;
+    }
 }

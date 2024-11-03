@@ -1,4 +1,4 @@
-import { Role } from "../types"; 
+import { Role } from '../types';
 
 export class User {
     private age: number;
@@ -6,7 +6,7 @@ export class User {
     private country: string;
     private description: string;
     private email: string;
-    private role: Role
+    private role: Role;
 
     constructor(user: {
         age: number;
@@ -47,5 +47,29 @@ export class User {
             this.email === email &&
             this.role == role
         );
+    }
+
+    getAge() {
+        return this.age;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    getCountry() {
+        return this.country;
+    }
+
+    getDescription() {
+        return this.description;
+    }
+
+    getEmail() {
+        return this.email;
+    }
+
+    getrole() {
+        return this.role;
     }
 }

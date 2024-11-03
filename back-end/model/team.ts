@@ -14,4 +14,12 @@ export class Team {
     equals({ name, country }: { name: string; country: string }): boolean {
         return this.name === name && this.country === country;
     }
+
+    getName() {
+        return this.name;
+    }
+
+    getCountry() {
+        return this.country;
+    }
 }

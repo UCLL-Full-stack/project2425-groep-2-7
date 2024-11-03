@@ -1,13 +1,15 @@
-import { Player } from '../model/player';
-import { Invite } from '../model/invite';
-import { Team } from '../model/team';
-import { Tournament } from '../model/tournament';
-const player1 = new Player({
+import { User } from '../../model/user';
+import { Invite } from '../../model/invite';
+import { Team } from '../../model/team';
+import { Tournament } from '../../model/tournament';
+
+const player1 = new User({
     age: 21,
     name: 'Daan Schoenaers',
     country: 'Belgium',
     description: 'Student',
     email: 'daan.schoenaers@gmail.com',
+    role: 'Admin',
 });
 const team1 = new Team({ name: 'pro players', country: 'Belgium', players: [player1] });
 
@@ -21,7 +23,7 @@ test('given: valid values for tournament, when: tournament is created, then: tou
     const tournament = new Tournament({ name, location, game });
 
     //then
-    expect(tournament.name).toEqual(name);
-    expect(tournament.location).toEqual(location);
-    expect(tournament.game).toEqual(game);
+    expect(tournament.getName()).toEqual(name);
+    expect(tournament.getLocation()).toEqual(location);
+    expect(tournament.getGame()).toEqual(game);
 });

@@ -1,7 +1,7 @@
-import { Player } from '../model/player';
-import { Invite } from '../model/invite';
-import { Team } from '../model/team';
-import { Tournament } from '../model/tournament';
+import { User } from '../../model/user';
+import { Invite } from '../../model/invite';
+import { Team } from '../../model/team';
+import { Tournament } from '../../model/tournament';
 
 test('given: valid values for player, when: player is created, then: player is created with those values', () => {
     //given
@@ -10,13 +10,15 @@ test('given: valid values for player, when: player is created, then: player is c
     const country = 'Belgium';
     const description = 'Student';
     const email = 'daan.schoenaers@gmail.com';
+    const role = 'Admin';
     //when
-    const player = new Player({ age, name, country, description, email });
+    const player = new User({ age, name, country, description, email, role });
 
     //then
-    expect(player.age).toEqual(age);
-    expect(player.name).toEqual(name);
-    expect(player.country).toEqual(country);
-    expect(player.description).toEqual(description);
-    expect(player.email).toEqual(email);
+    expect(player.getAge()).toEqual(age);
+    expect(player.getName()).toEqual(name);
+    expect(player.getCountry()).toEqual(country);
+    expect(player.getDescription()).toEqual(description);
+    expect(player.getEmail()).toEqual(email);
+    expect(player.getrole()).toEqual(role);
 });
