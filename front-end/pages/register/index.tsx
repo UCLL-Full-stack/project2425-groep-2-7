@@ -7,10 +7,7 @@ const Register: React.FC = () => {
         <title>Register</title>
       </head>
       <main>
-        <h1>Register</h1>
-        <section>
-          <RegisterForm />
-        </section>
+        <RegisterForm />
       </main>
     </>
   );
