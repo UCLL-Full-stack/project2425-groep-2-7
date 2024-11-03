@@ -1,18 +1,19 @@
 
 type Role = 'Player' | 'Admin' | 'Coach' 
 
-type PlayerInput = {
+type UserInput = {
     age: number;
     name: string;
     country: string;
     description: string;
     email: string;
+    role?: Role;
 }
 
 type TeamInput = {
     name: string;
     country: string;
-    players?: PlayerInput[];
+    players?: UserInput[];
 }
 
 type TournamentInput = {
@@ -25,12 +26,12 @@ type TournamentInput = {
 type InviteInput = {
     message: string;
     team: TeamInput;
-    players?: PlayerInput[];
+    user: UserInput;
 }
 
 export {
     Role,
-    PlayerInput,
+    UserInput,
     TeamInput,
     TournamentInput,
     InviteInput,

@@ -38,4 +38,9 @@ const users = [
 
 const getAllPlayers = (): User[] => users;
 
-export default { getAllPlayers };
+const addPlayer = (user:User): User => {
+    users.push(user);
+    return user;
+}
+
+export default { getAllPlayers, addPlayer };

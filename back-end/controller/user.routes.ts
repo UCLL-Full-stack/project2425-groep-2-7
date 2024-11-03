@@ -32,7 +32,8 @@
  *              description: Role of the user.
  */
 
-import playerService from '../service/user.service'
+import userService from '../service/user.service'
+import { UserInput } from '../types';
 import express, { NextFunction, Request, Response } from 'express';
 
 const userRouter = express.Router();
@@ -54,8 +55,38 @@ const userRouter = express.Router();
  */
 userRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const players = await playerService.getAllPlayers();
+        const players = await userService.getAllPlayers();
         res.status(200).json(players);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+/**
+ * @swagger
+ * /players:
+ *   post:
+ *      summary: Create a new Player.
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UserInput'
+ *      responses:
+ *         200:
+ *            description: The created User with the 'Player' role.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/User'
+ */
+userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const result = await userService.addPlayer(user);
+        res.status(200).json(result); 
     } catch (error) {
         next(error);
     }
