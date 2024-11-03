@@ -14,7 +14,7 @@
  *            players:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Player'
+ *                $ref: '#/components/schemas/User'
  *              description: List of players in the team.
  */
 

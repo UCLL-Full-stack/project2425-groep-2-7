@@ -6,10 +6,22 @@ export class Invite {
     private team: Team;
     private user: User;
 
-    constructor(invite: { message: string; team: Team; user: User }) {
+    constructor(invite: { 
+        message: string; 
+        team: Team; 
+        user: User 
+    }) { this.validate(invite)
         this.message = invite.message;
         this.team = invite.team;
         this.user = invite.user;
+    }
+    validate(invite: { message: string; team: Team; user: User}) {
+        if (!invite.team ) {
+            throw new Error('Team not found');
+        }
+        if (!invite.user) {
+            throw new Error('User not found');
+        }
     }
     equals({
         message,

@@ -2,19 +2,28 @@ import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import { UserInput,  } from "../types";
 
-const getAllPlayers = (): User[] => userDb.getAllPlayers(); 
-
-const addPlayer = ({
+const getAllPlayers = (): User[] =>{
+    const users = userDb.getAllPlayers(); 
+    if (users.length == 0){
+        throw new Error('No players found');
+    }
+    return users;
+}
+const addPlayer =  ({
     age,
     name,
     country,
     description,
     email,
+    password,
+    favGames,
 }:UserInput):User => {
-    const player = new User({age, name, country, description, email, role: 'Player'});
+    
+    const player = new User({age, name, country, description, email, password, favGames, role: 'Player'});
+
     const players = getAllPlayers();
     for (const player of players) {
-        if (player.equals({age, name, country, description, email, role: 'Player'})) {
+        if (player.equals({age, name, country, description, email, password, favGames, role: 'Player'})) {
             throw new Error('Player already exists');
         }
     }

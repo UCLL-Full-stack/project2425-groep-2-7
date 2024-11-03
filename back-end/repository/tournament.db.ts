@@ -9,7 +9,9 @@ const player1 = new User({
     country: "Belgium",
     description: "Student",
     email: "daan.schoenaers@gmail.com",
-    role: "Player"
+    role: "Player",
+    password: "password123",
+    favGames: "CS2, RL",
 });
 
 const player2 = new User({
@@ -18,7 +20,9 @@ const player2 = new User({
     country: "Belgium",
     description: "Student",
     email: "florian.lebrun@gmail.com",
-    role: "Player"
+    role: "Player",
+    password: "password123",
+    favGames: "CS2, RL",
 });
 
 const player3 = new User({
@@ -27,7 +31,9 @@ const player3 = new User({
     country:"Italy",
     description: "Student",
     email: "maxim.delloye@gmail.com",
-    role: "Player"
+    role: "Player",
+    password: "password123",
+    favGames: "CS2, RL",
 });
 
 const player4 = new User({
@@ -36,7 +42,9 @@ const player4 = new User({
     country: "Italy",
     description: "Student",
     email: "natan.delloye@gmail.com",
-    role: "Player"
+    role: "Player",
+    password: "password123",
+    favGames: "CS2, RL",
 });
 
 const Players = [player1, player2, player3, player4]
