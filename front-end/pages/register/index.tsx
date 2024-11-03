@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import registerForm from "@components/register/registerForm";
+import RegisterForm from "@/components/register/registerForm";
 
 const Register: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ const Register: React.FC = () => {
       <main>
         <h1>Register</h1>
         <section>
-          <registerForm />
+          <RegisterForm />
         </section>
       </main>
     </>
