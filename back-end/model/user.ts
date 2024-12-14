@@ -1,4 +1,5 @@
 import { Role } from '../types';
+import { User as UserPrisma } from '@prisma/client';
 
 export class User {
     private age: number;
@@ -9,51 +10,18 @@ export class User {
     private password: string;
     private favGames: string;
     private role: Role;
-    
+    private teamId?: number | null;
 
-    constructor(user: {
-        age: number;
-        name: string;
-        country: string;
-        description: string;
-        email: string;
-        password: string;
-        favGames: string;
-        role: Role;
-    }) { this.validate(user)
-        this.age = user.age;
-        this.name = user.name;
-        this.country = user.country;
-        this.description = user.description;
-        this.email = user.email;
-        this.password = user.password; 
-        this.favGames = user.favGames;  
-        this.role = user.role;
-    }
-
-    validate(user: {age: number, name: string, country: string, description: string, email: string, password: string, favGames: string, role: Role}) {
-        if (!user.age) {
-            throw new Error('Age is required');
-        }
-        if (!user.name) {
-            throw new Error('Name is required');
-        }
-        if (!user.email) {
-            throw new Error('Email is required');
-        }
-        if (!user.password) {
-            throw new Error('Password is required');
-        }
-    }
-    equals({
+    constructor({
         age,
         name,
         country,
         description,
         email,
-        role,
         password,
         favGames,
+        role,
+        teamId,
     }: {
         age: number;
         name: string;
@@ -61,8 +29,71 @@ export class User {
         description: string;
         email: string;
         password: string;
-        role: Role;
         favGames: string;
+        role: Role;
+        teamId?: number | null;
+    }) {
+        this.validate({ age, name, email, password });
+        this.age = age;
+        this.name = name;
+        this.country = country;
+        this.description = description;
+        this.email = email;
+        this.password = password;
+        this.favGames = favGames;
+        this.role = role;
+        this.teamId = teamId;
+    }
+
+    static from({
+        age,
+        name,
+        country,
+        description,
+        email,
+        password,
+        favGames,
+        role,
+        teamId,
+    }: UserPrisma): User {
+        return new User({
+            age,
+            name,
+            country,
+            description,
+            email,
+            password,
+            favGames,
+            role: role as Role, // Explicitly cast if needed
+            teamId: teamId ?? undefined ,
+        });
+    }
+
+    validate({ age, name, email, password }: { age: number; name: string; email: string; password: string }) {
+        if (!age) throw new Error('Age is required');
+        if (!name) throw new Error('Name is required');
+        if (!email) throw new Error('Email is required');
+        if (!password) throw new Error('Password is required');
+    }
+
+    equals({
+        age,
+        name,
+        country,
+        description,
+        email,
+        password,
+        favGames,
+        role,
+    }: {
+        age: number;
+        name: string;
+        country: string;
+        description: string;
+        email: string;
+        password: string;
+        favGames: string;
+        role: Role;
     }): boolean {
         return (
             this.age === age &&
@@ -70,10 +101,9 @@ export class User {
             this.country === country &&
             this.description === description &&
             this.email === email &&
-            this.role == role   &&
-            this.password === password  &&
-            this.favGames === favGames  &&
-            this.password === password        
+            this.password === password &&
+            this.favGames === favGames &&
+            this.role === role
         );
     }
 
@@ -97,10 +127,15 @@ export class User {
         return this.email;
     }
 
-    getrole() {
+    getRole() {
         return this.role;
     }
-    getfavGames() {
+
+    getFavGames() {
         return this.favGames;
+    }
+
+    getTeamId() {
+        return this.teamId;
     }
 }

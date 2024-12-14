@@ -1,28 +1,38 @@
 import { User } from './user';
+import { Team as TeamPrisma, User as UserPrisma } from '@prisma/client';
 
 export class Team {
     private name: string;
     private country: string;
-    private players: User[];
+    private players: { user: User }[];
 
-    constructor(team: { 
+    constructor(team: {
         name: string;
         country: string;
-        players: User[] 
-    }) { this.validate(team); 
+        players: { user: User }[];
+    }) {
+        this.validate(team);
         this.name = team.name;
         this.country = team.country;
         this.players = team.players;
     }
 
-    validate(team:{ name: string; country: string; players: User[]}) {
+    static from(team: TeamPrisma & { players?: UserPrisma[] }): Team {
+        return new Team({
+            name: team.name,
+            country: team.country,
+            players: team.players?.map(player => ({ user: User.from(player) })) ?? [],
+        });
+    }
+
+    validate(team: { name: string; country: string; players: { user: User }[] }) {
         if (!team.name) {
             throw new Error('Name is required');
         }
         if (!team.country) {
             throw new Error('Country is required');
         }
-        if (team.players.length == 0) {
+        if (team.players.length === 0) {
             throw new Error('At least one player is required');
         }
     }

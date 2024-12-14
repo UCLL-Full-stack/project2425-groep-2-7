@@ -91,7 +91,7 @@ const RegisterForm: React.FC = () => {
 
   return (
     <>
-      <main className="flex items-center justify-center min-h-screen bg-gray-800">
+      <main className="flex items-center justify-center pt-12 min-h-screen bg-gray-800">
         <form
           className="bg-red-600 text-white rounded-lg shadow-lg p-8 w-full max-w-md"
           onSubmit={handleSubmit}

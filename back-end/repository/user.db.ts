@@ -1,4 +1,7 @@
 import { User} from "../model/user";
+import { PrismaClient} from "@prisma/client";
+
+const database = new PrismaClient();
 
 const users = [
     new User({
@@ -44,7 +47,19 @@ const users = [
     })
 ];
 
-const getAllPlayers = (): User[] => users;
+const getAllPlayers = async (): Promise<User[]> => {
+    try {
+    const userprisma = await database.user.findMany({
+        include: { 
+            team: true,
+            invites: true},
+    });
+    return userprisma.map((userprisma) => User.from(userprisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
 const addPlayer = (user:User): User => {
     users.push(user);

@@ -1,5 +1,8 @@
 import { Team } from "../model/team";
 import { User} from "../model/user";
+import { PrismaClient } from "@prisma/client";
+
+const database = new PrismaClient();
 
 const player1 = new User({
     age: 21,
@@ -47,14 +50,45 @@ const player4 = new User({
 
 
 const Players = [player1, player2, player3, player4]
+const wrapPlayers = (players: User[]): { user: User }[] =>
+    players.map(player => ({ user: player }));
 
-const team1 = new Team({ name: 'ProPlayers', country: 'Belgium', players: Players })
-const team2 = new Team({ name: 'Belgium ProPlayers players', country: 'Belgium', players: [player1, player2] })
-const team3 = new Team({ name: 'Italy ProPlayers', country: 'Italy', players: [player3, player4] })
+const team1 = new Team({ name: 'ProPlayers', country: 'Belgium', players: wrapPlayers(Players) })
+const team2 = new Team({ name: 'Belgium ProPlayers', country: 'Belgium', players: wrapPlayers([player1, player2]) })
+const team3 = new Team({ name: 'Italy ProPlayers', country: 'Italy', players: wrapPlayers([player3, player4]) })
 
 const teams = [team1, team2, team3]
 
-const getAllTeams = (): Team[] => teams;
+const getAllTeams = async (): Promise<Team[]> => {
+    try {
+        const teamprisma = await database.team.findMany({
+            include: {
+                players: true
+            }
+        });
+        return teamprisma.map((teamprisma) =>  Team.from(teamprisma));
+    } catch (error) {
+        console.error('Error fetching teams:', error);
+        throw error;
+    }        
+};
 
-export default {getAllTeams};
+const getTeamById = async (teamId: number): Promise<Team> => {
+    try {
+        const teamprisma = await database.team.findFirst({
+            where: {
+                id: teamId
+            },
+            include: {
+                players: true
+            }
+        });
+        if (!teamprisma) throw new Error('Team with Id ${teamId} not found');
+        return Team.from(teamprisma);
+    } catch (error) {
+        console.error('Error fetching team:', error);
+        throw error;
+    }
+}
+export default {getAllTeams, getTeamById};
 

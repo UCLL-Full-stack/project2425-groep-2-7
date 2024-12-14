@@ -18,7 +18,7 @@
  *              description: List of players in the team.
  */
 
-import  teamService  from '../service/team.service';
+import teamService from '../service/team.service';
 import express, { NextFunction, Request, Response } from 'express';
 
 const teamRouter = express.Router();
@@ -38,7 +38,7 @@ const teamRouter = express.Router();
  *               items:
  *                  $ref: '#/components/schemas/Team'
  */
-teamRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
+teamRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const teams = await teamService.getAllTeams();
         res.status(200).json(teams);
@@ -47,4 +47,38 @@ teamRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-export {teamRouter}
+/**
+ * @swagger
+ * /teams/{teamId}:
+ *   get:
+ *     summary: Get a specific team by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: teamId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the team to retrieve.
+ *     responses:
+ *       200:
+ *         description: A single team object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Team'
+ *       404:
+ *         description: Team not found.
+ */
+teamRouter.get('/:teamId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const team = await teamService.getTeamById(parseInt(req.params.teamId));
+        if (!team) {
+            return res.status(404).json({ message: 'Team not found' });
+        }
+        res.status(200).json(team);
+    } catch (error) {
+        next(error);
+    }
+});
+
+export { teamRouter};

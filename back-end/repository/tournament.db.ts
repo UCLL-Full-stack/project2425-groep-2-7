@@ -49,9 +49,13 @@ const player4 = new User({
 
 const Players = [player1, player2, player3, player4]
 
-const team1 = new Team({ name: 'ProPlayers', country: 'Belgium', players: Players })
-const team2 = new Team({ name: 'Belgium ProPlayers', country: 'Belgium', players: [player1, player2] })
-const team3 = new Team({ name: 'Italy ProPlayers', country: 'Italy', players: [player3, player4] })
+const wrapPlayers = (players: User[]): { user: User }[] =>
+    players.map(player => ({ user: player }));
+
+
+const team1 = new Team({ name: 'ProPlayers', country: 'Belgium', players: wrapPlayers(Players) });
+const team2 = new Team({ name: 'Belgium ProPlayers', country: 'Belgium', players: wrapPlayers([player1, player2])})
+const team3 = new Team({ name: 'Italy ProPlayers', country: 'Italy', players: wrapPlayers([player3, player4]) })
 
 const teams = [team1, team2, team3]
 

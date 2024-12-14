@@ -1,0 +1,56 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  age         Int
+  name        String
+  country     String
+  description String
+  email       String   @unique
+  password    String
+  favGames    String
+  role        Role     @default(Player)
+  teamId      Int? // Relation to Team
+  team        Team?    @relation(fields: [teamId], references: [id])
+  invites     Invite[] // User can have multiple invites
+}
+
+model Team {
+  id           Int         @id @default(autoincrement())
+  name         String
+  country      String
+  players      User[] // Relation to Users (Players in this Team)
+  invites      Invite[] // Team can have multiple invites
+  Tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  tournamentId Int?
+}
+
+model Tournament {
+  id       Int    @id @default(autoincrement())
+  name     String
+  location String
+  game     String
+  teams    Team[] // Relation to Teams participating in this Tournament
+}
+
+model Invite {
+  id      Int    @id @default(autoincrement())
+  message String
+  teamId  Int // Relation to Team
+  userId  Int // Relation to User
+  team    Team   @relation(fields: [teamId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  Player
+  Admin
+  Coach
+}

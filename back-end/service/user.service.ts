@@ -2,14 +2,14 @@ import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import { UserInput,  } from "../types";
 
-const getAllPlayers = (): User[] =>{
-    const users = userDb.getAllPlayers(); 
+const getAllPlayers = async (): Promise<User[]> =>{
+    const users = await userDb.getAllPlayers(); 
     if (users.length == 0){
         throw new Error('No players found');
     }
     return users;
 }
-const addPlayer =  ({
+const addPlayer = async ({
     age,
     name,
     country,
@@ -17,11 +17,11 @@ const addPlayer =  ({
     email,
     password,
     favGames,
-}:UserInput):User => {
+}:UserInput):Promise<User> => {
     
     const player = new User({age, name, country, description, email, password, favGames, role: 'Player'});
 
-    const players = getAllPlayers();
+    const players = await getAllPlayers();
     for (const player of players) {
         if (player.equals({age, name, country, description, email, password, favGames, role: 'Player'})) {
             throw new Error('Player already exists');

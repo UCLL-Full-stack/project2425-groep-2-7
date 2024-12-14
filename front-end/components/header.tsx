@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header: React.FC = () => {
   return (
-    <header className="p-5 mb-6  bg-emerald-900 flex flex-col items-center">
+    <header className="p-5 bg-emerald-900 flex flex-col items-center">
       <nav className="flex flex-col md:flex-row md:space-x-14 space-y-2 md:space-y-0">
         <Link
           href="/"
@@ -23,6 +23,13 @@ const Header: React.FC = () => {
           className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
         >
           Register
+        </Link>
+
+        <Link
+          href="/teams"
+          className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
+        >
+          Teams
         </Link>
       </nav>
     </header>
