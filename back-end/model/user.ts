@@ -8,7 +8,6 @@ export class User {
     private description: string;
     private email: string;
     private password: string;
-    private favGames: string;
     private role: Role;
     private teamId?: number | null;
 
@@ -19,7 +18,6 @@ export class User {
         description,
         email,
         password,
-        favGames,
         role,
         teamId,
     }: {
@@ -29,7 +27,6 @@ export class User {
         description: string;
         email: string;
         password: string;
-        favGames: string;
         role: Role;
         teamId?: number | null;
     }) {
@@ -40,7 +37,6 @@ export class User {
         this.description = description;
         this.email = email;
         this.password = password;
-        this.favGames = favGames;
         this.role = role;
         this.teamId = teamId;
     }
@@ -52,7 +48,6 @@ export class User {
         description,
         email,
         password,
-        favGames,
         role,
         teamId,
     }: UserPrisma): User {
@@ -63,9 +58,8 @@ export class User {
             description,
             email,
             password,
-            favGames,
-            role: role as Role, // Explicitly cast if needed
-            teamId: teamId ?? undefined ,
+            role: role as Role,
+            teamId: teamId ?? undefined,
         });
     }
 
@@ -76,36 +70,48 @@ export class User {
         if (!password) throw new Error('Password is required');
     }
 
-    equals({
-        age,
-        name,
-        country,
-        description,
-        email,
-        password,
-        favGames,
-        role,
-    }: {
-        age: number;
-        name: string;
-        country: string;
-        description: string;
-        email: string;
-        password: string;
-        favGames: string;
-        role: Role;
-    }): boolean {
-        return (
-            this.age === age &&
-            this.name === name &&
-            this.country === country &&
-            this.description === description &&
-            this.email === email &&
-            this.password === password &&
-            this.favGames === favGames &&
-            this.role === role
-        );
-    }
+    toPlainObject(): {
+    age: number;
+    name: string;
+    country: string;
+    description: string;
+    email: string;
+    password: string;
+    role: Role;
+    teamId?: number | null;
+} {
+    return {
+        age: this.age,
+        name: this.name,
+        country: this.country,
+        description: this.description,
+        email: this.email,
+        password: this.password,
+        role: this.role,
+        teamId: this.teamId,
+    };
+}
+
+equals(user: {
+    age: number;
+    name: string;
+    country: string;
+    description: string;
+    email: string;
+    password: string;
+    role: Role;
+}): boolean {
+    return (
+        this.getAge() === user.age &&
+        this.getName() === user.name &&
+        this.getCountry() === user.country &&
+        this.getDescription() === user.description &&
+        this.getEmail() === user.email &&
+        this.getPassword() === user.password &&
+        this.getRole() === user.role
+    );
+}
+
 
     getAge() {
         return this.age;
@@ -130,12 +136,10 @@ export class User {
     getRole() {
         return this.role;
     }
-
-    getFavGames() {
-        return this.favGames;
-    }
-
     getTeamId() {
         return this.teamId;
+    }
+    getPassword() {
+        return this.password;
     }
 }

@@ -13,7 +13,6 @@ const player1 = new User({
     email: "daan.schoenaers@gmail.com",
     role: "Player",
     password: "password123",
-    favGames: "CS2, RL",
 });
 
 const player2 = new User({
@@ -24,7 +23,6 @@ const player2 = new User({
     email: "florian.lebrun@gmail.com",
     role: "Player",
     password: "password123",
-    favGames: "CS2, RL",
 });
 
 const player3 = new User({
@@ -35,7 +33,6 @@ const player3 = new User({
     email: "maxim.delloye@gmail.com",
     role: "Player",
     password: "password123",
-    favGames: "CS2, RL",
 });
 
 const player4 = new User({
@@ -46,7 +43,6 @@ const player4 = new User({
     email: "natan.delloye@gmail.com",
     role: "Player",
     password: "password123",
-    favGames: "CS2, RL",
 });
 
 const Players = [player1, player2, player3, player4]

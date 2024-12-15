@@ -100,7 +100,15 @@ const RegisterForm: React.FC = () => {
             User Registration
           </h1>
 
-          {status && <div className="text-red-500 mb-4">{status}</div>}
+          {status && (
+            <div
+              className={`mb-4 ${
+                status.includes('error') ? 'text-red-500' : 'text-green-500'
+              }`}
+            >
+              {status}
+            </div>
+          )}
 
           <div className="mb-4">
             <label htmlFor="age" className="block mb-1">

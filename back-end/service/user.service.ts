@@ -1,6 +1,6 @@
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
-import { UserInput,  } from "../types";
+import { UserInput  } from "../types";
 
 const getAllPlayers = async (): Promise<User[]> =>{
     const users = await userDb.getAllPlayers(); 
@@ -16,19 +16,20 @@ const addPlayer = async ({
     description,
     email,
     password,
-    favGames,
-}:UserInput):Promise<User> => {
-    
-    const player = new User({age, name, country, description, email, password, favGames, role: 'Player'});
+}: UserInput): Promise<User> => {
+    const player = new User({ age, name, country, description, email, password, role: 'Player' });
 
     const players = await getAllPlayers();
-    for (const player of players) {
-        if (player.equals({age, name, country, description, email, password, favGames, role: 'Player'})) {
+    for (const existingPlayer of players) {
+        if (existingPlayer.equals(player.toPlainObject())) {
             throw new Error('Player already exists');
         }
     }
-    return userDb.addPlayer(player);
-}
+
+    // Convert the User instance to a plain object before saving
+    return userDb.addPlayer(player.toPlainObject());
+};
+
 
 
 

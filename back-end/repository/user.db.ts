@@ -1,6 +1,6 @@
 import { User} from "../model/user";
 import { PrismaClient} from "@prisma/client";
-
+import { Role } from "../types/index"
 const database = new PrismaClient();
 
 const users = [
@@ -12,7 +12,6 @@ const users = [
         email: "daan.schoenaers@gmail.com",
         role: "Player",
         password: "password123",
-        favGames: "CS2, RL",
     }),
     new User({
         age: 21,
@@ -22,7 +21,6 @@ const users = [
         email: "florian.lebrun@gmail.com",
         role: "Player",
         password: "password123",
-        favGames: "CS2, RL",
     }),
     new User({
         age: 21,
@@ -32,7 +30,6 @@ const users = [
         email: "maxim.delloye@gmail.com",
         role: "Player",
         password: "password123",
-        favGames: "CS2, RL",
     }),
     
     new User({
@@ -43,7 +40,6 @@ const users = [
         email: "natan.delloye@gmail.com",
         role: "Player",
         password: "password123",
-        favGames: "CS2, RL",
     })
 ];
 
@@ -61,9 +57,40 @@ const getAllPlayers = async (): Promise<User[]> => {
     }
 };
 
-const addPlayer = (user:User): User => {
-    users.push(user);
-    return user;
-}
+const addPlayer = async (userData: {
+    age: number;
+    name: string;
+    country: string;
+    description: string;
+    email: string;
+    password: string; 
+    role: Role;
+    teamId?: number | null;
+}): Promise<User> => {
+    try {
+        // Create a new User instance
+        const user = new User(userData);
+
+        // Persist the user to the database
+        const createdUser = await database.user.create({
+            data: {
+                age: user.getAge(),
+                name: user.getName(),
+                country: user.getCountry(),
+                description: user.getDescription(),
+                email: user.getEmail(),
+                password: user.getPassword(), // Ensure password is hashed before storing
+                role: user.getRole(),
+                teamId: user.getTeamId() ?? null, // Convert undefined to null if necessary
+            },
+        });
+
+        // Return the User instance
+        return User.from(createdUser);
+    } catch (error) {
+        console.error('Error adding user to the database:', error);
+        throw error;
+    }
+};
 
 export default { getAllPlayers, addPlayer };

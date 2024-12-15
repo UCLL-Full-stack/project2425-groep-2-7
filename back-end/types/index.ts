@@ -8,7 +8,6 @@ type UserInput = {
     description: string;
     email: string;
     password: string;
-    favGames: string;
     role?: Role;
 }
 
