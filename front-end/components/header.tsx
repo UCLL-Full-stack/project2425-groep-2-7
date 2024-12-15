@@ -19,18 +19,26 @@ const Header: React.FC = () => {
         </Link>
 
         <Link
+          href="/teams"
+          className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
+        >
+          Teams
+        </Link>
+
+        <Link
+          href="/tournaments"
+          className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
+        >
+          Tournaments
+        </Link>
+        
+        <Link
           href="/register"
           className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
         >
           Register
         </Link>
 
-        <Link
-          href="/teams"
-          className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
-        >
-          Teams
-        </Link>
       </nav>
     </header>
   );

@@ -1,7 +1,9 @@
 import { Team } from "../model/team";
 import { User} from "../model/user";
 import { Tournament } from "../model/tournament";
+import { PrismaClient } from "@prisma/client";
 
+const database = new PrismaClient();
 
 const player1 = new User({
     age: 21,
@@ -73,8 +75,24 @@ const tournament2 = new Tournament({
     teams: [team2, team3]
 });
 
-const tournaments = [tournament1, tournament2];
 
-const getAllTournaments = (): Tournament[] => tournaments;
+const getAllTournaments = async (): Promise<Tournament[]> => {
+    try {
+        const tournamentprisma = await database.tournament.findMany({
+            include: {
+                teams: {
+                    include: {
+                        players: true, 
+                    },
+                },
+            },
+        });
+        return tournamentprisma.map((tournamentprisma) => Tournament.from(tournamentprisma));
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
+        throw error;
+    }
+};
+
 
 export default {getAllTournaments};

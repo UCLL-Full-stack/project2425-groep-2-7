@@ -1,9 +1,9 @@
 import { Tournament } from "../model/tournament";
 import TournamentDb from "../repository/tournament.db";
 
-const getAllTournaments = (): Tournament[] => {
-    const tournaments = TournamentDb.getAllTournaments();
-    if (tournaments.length > 0) {
+const getAllTournaments = async (): Promise<Tournament[]> => {
+    const tournaments = await TournamentDb.getAllTournaments();
+    if (!tournaments) {
         throw new Error("No tournaments found")
     }
     return tournaments;

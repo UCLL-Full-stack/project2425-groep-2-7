@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Team } from '@/types';
-import { User } from '@/types';
-import UserService from "@/services/UserService";
-import TeamService from '@/services/TeamService';
+import TournamentService  from "@/services/TournamentService";
+import { Tournament } from '@/types';
 
 
-
-
-const TeamTableOverview: React.FC = () => {
-    const [teams, setTeams] = useState<Team[]>([]);
+const  TournamentTableOverview: React.FC = () => {
+    const [tournaments, setTournaments] = useState<Tournament[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchTeams = async () => {
+        const fetchTournaments = async () => {
             try {
-                const teamsData = await TeamService.getAllTeams();
-                setTeams(teamsData);
+                const tournamentsData = await TournamentService.getAllTournaments();
+                setTournaments(tournamentsData);
             } catch (err) {
-                setError('Could not load teams. Please try again later.');
+                setError('Could not load tournaments. Please try again later.');
                 console.error(err);
             }
         };
 
-        fetchTeams();
+        fetchTournaments();
     }, []);
 
     return (
         <>
             <header className="bg-gray-800 p-4 text-center text-white">
-                <h1 className="text-2xl font-bold">Teams</h1>
+                <h1 className="text-2xl font-bold">Tournaments</h1>
             </header>
             <main className="bg-gray-800 p-6">
                 {error ? (
@@ -39,23 +35,23 @@ const TeamTableOverview: React.FC = () => {
                             <thead className="bg-blue-700">
                                 <tr>
                                     <th className="px-4 py-2 text-left">Name</th>
-                                    <th className="px-4 py-2 text-left">Country</th>
-                                    <th className="px-4 py-2 text-left">Number of Players</th>
-                                    <th className="px-4 py-2 text-left">Leader</th>
+                                    <th className="px-4 py-2 text-left">Game</th>
+                                    <th className="px-4 py-2 text-left">Location</th>
+                                    <th className="px-4 py-2 text-left">Number of teams</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {teams.map((team, index) => (
+                                {tournaments.map((tournament, index) => (
                                     <tr
                                         key={index}
                                         className={`hover:bg-blue-500 ${
                                             index % 2 === 0 ? 'bg-blue-600' : 'bg-blue-500'
                                         }`}
                                     >
-                                        <td className="px-4 py-2">{team.name}</td>
-                                        <td className="px-4 py-2">{team.country}</td>
-                                        <td className="px-4 py-2">{team.players ? team.players.length : "Dead Team"}</td>
-                                        <td className="px-4 py-2">{team.players ? team.players[0].user.name : "Dead Team" }</td>
+                                        <td className="px-4 py-2">{tournament.name}</td>
+                                        <td className="px-4 py-2">{tournament.game}</td>
+                                        <td className="px-4 py-2">{tournament.location}</td>
+                                        <td className="px-4 py-2">{tournament.teams? tournament.teams.length : 'No teams'}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -67,4 +63,4 @@ const TeamTableOverview: React.FC = () => {
     );
 };
 
-export default TeamTableOverview;
+export default TournamentTableOverview;

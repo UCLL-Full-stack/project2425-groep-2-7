@@ -19,3 +19,13 @@ export type Team = {
       user: User; 
   }[];
 };
+
+export type Tournament = {
+  name: string;
+  location: string;
+  game: string;
+  teams?: {
+    team : Team;
+  }[];
+};
+

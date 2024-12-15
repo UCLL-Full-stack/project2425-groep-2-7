@@ -21,9 +21,10 @@ export class Team {
         return new Team({
             name: team.name,
             country: team.country,
-            players: team.players?.map(player => ({ user: User.from(player) })) ?? [],
+            players: team.players?.map(player => ({ user: User.from(player) })) ?? [], 
         });
     }
+    
 
     validate(team: { name: string; country: string; players: { user: User }[] }) {
         if (!team.name) {
@@ -32,10 +33,11 @@ export class Team {
         if (!team.country) {
             throw new Error('Country is required');
         }
-        if (team.players.length === 0) {
+        if (team.players.length === 0 || !team.players.some(player => player.user)) {
             throw new Error('At least one player is required');
-        }
+        } 
     }
+    
 
     equals({ name, country }: { name: string; country: string }): boolean {
         return this.name === name && this.country === country;

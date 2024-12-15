@@ -30,16 +30,16 @@ const tournamentRouter = express.Router();
  * @swagger
  * /tournaments:
  *   get:
- *     summary: Get a list of all teams.
+ *     summary: Get a list of all tournaments.
  *     responses:
  *       200:
- *         description: A list of teams.
+ *         description: A list of tournaments.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                  $ref: '#/components/schemas/Team'
+ *                  $ref: '#/components/schemas/Tournament'
  */
 tournamentRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
     try {
