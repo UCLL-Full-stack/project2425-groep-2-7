@@ -2,30 +2,14 @@ import React, { useEffect, useState } from 'react';
 import TournamentService  from "@/services/TournamentService";
 import { Tournament } from '@/types';
 
+interface TournamentTableOverviewProps {
+  tournaments: Tournament[];
+  error: string | null;
+}
 
-const  TournamentTableOverview: React.FC = () => {
-    const [tournaments, setTournaments] = useState<Tournament[]>([]);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchTournaments = async () => {
-            try {
-                const tournamentsData = await TournamentService.getAllTournaments();
-                setTournaments(tournamentsData);
-            } catch (err) {
-                setError('Could not load tournaments. Please try again later.');
-                console.error(err);
-            }
-        };
-
-        fetchTournaments();
-    }, []);
-
+const TournamentTableOverview: React.FC<TournamentTableOverviewProps> = ({ tournaments, error }) => {
     return (
         <>
-            <header className="bg-gray-800 p-4 text-center text-white">
-                <h1 className="text-2xl font-bold">Tournaments</h1>
-            </header>
             <main className="bg-gray-800 p-6">
                 {error ? (
                     <p className="text-red-500 text-center">{error}</p>
