@@ -9,6 +9,7 @@ const player1 = new User({
     country: 'Belgium',
     description: 'Student',
     email: 'daan.schoenaers@gmail.com',
+    password: 'Hallo',
     role: 'Admin',
 });
 const team1 = new Team({ name: 'pro players', country: 'Belgium', players: [player1] });

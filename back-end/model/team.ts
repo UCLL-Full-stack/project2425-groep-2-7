@@ -6,11 +6,7 @@ export class Team {
     private country: string;
     private players: { user: User }[];
 
-    constructor(team: {
-        name: string;
-        country: string;
-        players: { user: User }[];
-    }) {
+    constructor(team: { name: string; country: string; players: { user: User }[] }) {
         this.validate(team);
         this.name = team.name;
         this.country = team.country;
@@ -21,10 +17,9 @@ export class Team {
         return new Team({
             name: team.name,
             country: team.country,
-            players: team.players?.map(player => ({ user: User.from(player) })) ?? [], 
+            players: team.players?.map((player) => ({ user: User.from(player) })) ?? [],
         });
     }
-    
 
     validate(team: { name: string; country: string; players: { user: User }[] }) {
         if (!team.name) {
@@ -34,7 +29,6 @@ export class Team {
             throw new Error('Country is required');
         }
     }
-    
 
     equals({ name, country }: { name: string; country: string }): boolean {
         return this.name === name && this.country === country;

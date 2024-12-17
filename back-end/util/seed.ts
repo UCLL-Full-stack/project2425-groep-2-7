@@ -46,7 +46,6 @@ const main = async () => {
         }
     });
 
-    
     const user4 = await prisma.user.create({
         data: {
             age: 21,
@@ -62,58 +61,46 @@ const main = async () => {
     const team1 = await prisma.team.create({
         data: {
             name: 'ProPlayers',
-             country: 'Belgium',
-             players : {
-                connect: [
-                    {id: user1.id},
-                    {id: user2.id},
-                ]
-             }
-        }
-    })
+            country: 'Belgium',
+            players: {
+                connect: [{ id: user1.id }, { id: user2.id }],
+            },
+        },
+    });
 
     const team2 = await prisma.team.create({
         data: {
             name: 'NoobPlayers',
             country: 'Belgium',
-            players : {
-                connect: [
-                    {id: user3.id},
-                    {id: user4.id},
-                ]
-             }
-        }
-    })
-
+            players: {
+                connect: [{ id: user3.id }, { id: user4.id }],
+            },
+        },
+    });
 
     const tournament1 = await prisma.tournament.create({
         data: {
-            name: "Pro League",
-             location: "Belgium, Antwerp",
-              game: "CS2",
-              teams: {
-                connect: [
-                    {id: team1.id},
-                    {id: team2.id},
-                ]    
-              }
-        }
-    })
+            name: 'Pro League',
+            location: 'Belgium, Antwerp',
+            game: 'CS2',
+            teams: {
+                connect: [{ id: team1.id }, { id: team2.id }],
+            },
+        },
+    });
 
     const tournament2 = await prisma.tournament.create({
         data: {
-            name: "Amateur League",
-             location: "Belgium, Brussels",
-              game: "LOL",
-              teams: {
-                connect: [
-                    {id: team2.id},
-                ]
-              }
-            }
-        })
+            name: 'Amateur League',
+            location: 'Belgium, Brussels',
+            game: 'LOL',
+            teams: {
+                connect: [{ id: team2.id }],
+            },
+        },
+    });
 };
-    
+
 (async () => {
     try {
         await main();

@@ -32,7 +32,7 @@
  *              description: Role of the user.
  */
 
-import userService from '../service/user.service'
+import userService from '../service/user.service';
 import { UserInput } from '../types';
 import express, { NextFunction, Request, Response } from 'express';
 
@@ -53,7 +53,7 @@ const userRouter = express.Router();
  *               items:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const players = await userService.getAllPlayers();
         res.status(200).json(players);
@@ -61,7 +61,6 @@ userRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 });
-
 
 /**
  * @swagger
@@ -86,10 +85,10 @@ userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
     try {
         const user = <UserInput>req.body;
         const result = await userService.addPlayer(user);
-        res.status(200).json(result); 
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
 });
 
-export {userRouter}
+export { userRouter };

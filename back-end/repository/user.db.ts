@@ -1,56 +1,57 @@
-import { User} from "../model/user";
-import { PrismaClient} from "@prisma/client";
-import { Role } from "../types/index"
+import { User } from '../model/user';
+import { PrismaClient } from '@prisma/client';
+import { Role } from '../types/index';
 const database = new PrismaClient();
 
 const users = [
     new User({
         age: 21,
-        name: "Daan Schoenaers",
-        country: "Belgium",
-        description: "Student",
-        email: "daan.schoenaers@gmail.com",
-        role: "Player",
-        password: "password123",
+        name: 'Daan Schoenaers',
+        country: 'Belgium',
+        description: 'Student',
+        email: 'daan.schoenaers@gmail.com',
+        role: 'Player',
+        password: 'password123',
     }),
     new User({
         age: 21,
-        name: "Florian Lebrun",
-        country: "Belgium",
-        description: "Student",
-        email: "florian.lebrun@gmail.com",
-        role: "Player",
-        password: "password123",
+        name: 'Florian Lebrun',
+        country: 'Belgium',
+        description: 'Student',
+        email: 'florian.lebrun@gmail.com',
+        role: 'Player',
+        password: 'password123',
     }),
     new User({
         age: 21,
-        name: "Maxim Delloye",
-        country:"Italy",
-        description: "Student",
-        email: "maxim.delloye@gmail.com",
-        role: "Player",
-        password: "password123",
+        name: 'Maxim Delloye',
+        country: 'Italy',
+        description: 'Student',
+        email: 'maxim.delloye@gmail.com',
+        role: 'Player',
+        password: 'password123',
     }),
-    
+
     new User({
         age: 21,
-        name: "Natan Delloye",
-        country: "Italy",
-        description: "Student",
-        email: "natan.delloye@gmail.com",
-        role: "Player",
-        password: "password123",
-    })
+        name: 'Natan Delloye',
+        country: 'Italy',
+        description: 'Student',
+        email: 'natan.delloye@gmail.com',
+        role: 'Player',
+        password: 'password123',
+    }),
 ];
 
 const getAllPlayers = async (): Promise<User[]> => {
     try {
-    const userprisma = await database.user.findMany({
-        include: { 
-            team: true,
-            invites: true},
-    });
-    return userprisma.map((userprisma) => User.from(userprisma));
+        const userprisma = await database.user.findMany({
+            include: {
+                team: true,
+                invites: true,
+            },
+        });
+        return userprisma.map((userprisma) => User.from(userprisma));
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

@@ -1,14 +1,14 @@
-import { User } from "../model/user";
-import userDb from "../repository/user.db";
-import { UserInput  } from "../types";
+import { User } from '../model/user';
+import userDb from '../repository/user.db';
+import { UserInput } from '../types';
 
-const getAllPlayers = async (): Promise<User[]> =>{
-    const users = await userDb.getAllPlayers(); 
-    if (users.length == 0){
+const getAllPlayers = async (): Promise<User[]> => {
+    const users = await userDb.getAllPlayers();
+    if (users.length == 0) {
         throw new Error('No players found');
     }
     return users;
-}
+};
 const addPlayer = async ({
     age,
     name,
@@ -30,19 +30,6 @@ const addPlayer = async ({
     return userDb.addPlayer(player.toPlainObject());
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* const invitePlayerToTeam = ({
     message: String,
     team: TeamInput,
@@ -52,4 +39,4 @@ const addPlayer = async ({
     const invite = new Invite({message, team, user});
 }
 */
-export default {getAllPlayers, addPlayer};
+export default { getAllPlayers, addPlayer };
