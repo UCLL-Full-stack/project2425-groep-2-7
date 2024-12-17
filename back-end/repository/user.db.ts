@@ -64,7 +64,7 @@ const addPlayer = async (userData: {
     description: string;
     email: string;
     password: string; 
-    role: Role;
+    role?: Role | undefined;
     teamId?: number | null;
 }): Promise<User> => {
     try {

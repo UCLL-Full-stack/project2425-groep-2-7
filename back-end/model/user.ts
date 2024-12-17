@@ -8,7 +8,7 @@ export class User {
     private description: string;
     private email: string;
     private password: string;
-    private role: Role;
+    private role?: Role | undefined;
     private teamId?: number | null;
 
     constructor({
@@ -27,7 +27,7 @@ export class User {
         description: string;
         email: string;
         password: string;
-        role: Role;
+        role?: Role | undefined;
         teamId?: number | null;
     }) {
         this.validate({ age, name, email, password });
@@ -77,7 +77,7 @@ export class User {
     description: string;
     email: string;
     password: string;
-    role: Role;
+    role?: Role | undefined;
     teamId?: number | null;
 } {
     return {
@@ -99,7 +99,7 @@ equals(user: {
     description: string;
     email: string;
     password: string;
-    role: Role;
+    role?: Role | undefined;
 }): boolean {
     return (
         this.getAge() === user.age &&

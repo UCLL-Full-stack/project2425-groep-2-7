@@ -33,9 +33,6 @@ export class Team {
         if (!team.country) {
             throw new Error('Country is required');
         }
-        if (team.players.length === 0 || !team.players.some(player => player.user)) {
-            throw new Error('At least one player is required');
-        } 
     }
     
 
@@ -49,5 +46,8 @@ export class Team {
 
     getCountry() {
         return this.country;
+    }
+    getPlayers() {
+        return this.players
     }
 }

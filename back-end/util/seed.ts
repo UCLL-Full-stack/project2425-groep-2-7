@@ -18,9 +18,7 @@ const main = async () => {
             description: "Student",
             email: "daan.schoenaers@gmail.com",
             role: "Player",
-            password: "password123",
-            favGames: "CS2, RL",
-            
+            password: "password123",            
         }
         
     });
@@ -32,9 +30,7 @@ const main = async () => {
             description: "Student",
             email: "florian.lebrun@gmail.com",
             role: "Player",
-            password: "password123",
-            favGames: "CS2, RL",
-            
+            password: "password123",            
         }
     });
 
@@ -47,7 +43,6 @@ const main = async () => {
             email: "maxim.delloye@gmail.com",
             role: "Player",
             password: "password123",
-            favGames: "CS2, RL",
         }
     });
 
@@ -61,8 +56,7 @@ const main = async () => {
             email: "natan.delloye@gmail.com",
             role: "Player",
             password: "password123",
-            favGames: "CS2, RL",
-    }
+        }
     });
 
     const team1 = await prisma.team.create({

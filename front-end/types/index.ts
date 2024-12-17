@@ -1,6 +1,6 @@
 
 
-type Role = "Player" | "Admin" | "Coach";
+export type Role = "Player" | "Admin" | "Coach";
 
 export type User = {
   age: number;
@@ -10,13 +10,14 @@ export type User = {
   email: string;
   password: string;
   teamId?: number;
+  role?: Role;
 };
 
 export type Team = {
   name: string;
   country: string;
-  players?: {
-      user: User; 
+  players: {
+    id: number;
   }[];
 };
 

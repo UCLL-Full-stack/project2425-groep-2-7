@@ -20,6 +20,7 @@
 
 import teamService from '../service/team.service';
 import express, { NextFunction, Request, Response } from 'express';
+import { TeamIdInput } from '../types';
 
 const teamRouter = express.Router();
 
@@ -80,5 +81,38 @@ teamRouter.get('/:teamId', async (req: Request, res: Response, next: NextFunctio
         next(error);
     }
 });
+
+/**
+ * @swagger
+ * /teams:
+ *   post:
+ *      summary: Create a new team.
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Team'
+ *      responses:
+ *         200:
+ *            description: The created team.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Team'
+ */
+teamRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Request Body:", req.body);
+    try {
+        
+        const team = <TeamIdInput>req.body;
+        console.log(team);
+        const result = await teamService.addTeam(team);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 export { teamRouter};

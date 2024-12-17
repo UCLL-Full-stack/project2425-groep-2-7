@@ -45,9 +45,28 @@ const getTeamById = async (teamId: number): Promise<Team> => {
     }
 }
 
+const createTeam = async (teamData: {
+    name: string;
+    country: string;
+    creatorId: number;
+}) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    const response = await fetch(apiUrl + "/teams", {
+        method: "POST",
+        headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(teamData),
+    });
+    console.log(response);
+    return(response)
+}
+
 const TeamService = {
     getAllTeams,
-    getTeamById
+    getTeamById,
+    createTeam
 }
 
 export default TeamService;

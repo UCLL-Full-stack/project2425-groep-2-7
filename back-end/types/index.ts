@@ -8,32 +8,38 @@ type UserInput = {
     description: string;
     email: string;
     password: string;
-    role?: Role;
+    role?: Role | undefined;
 }
 
-type TeamInput = {
+type TeamIdInput = {
     name: string;
     country: string;
-    players?: UserInput[];
+    creatorId:  number;
+}
+type TeamPlayersInput = {
+    name: string;
+    country: string;
+    players: UserInput[];
 }
 
 type TournamentInput = {
     name: string;
     location: string;
     game: string;
-    teams?: TeamInput[];
+    teams?: TeamPlayersInput[];
 }
 
 type InviteInput = {
     message: string;
-    team: TeamInput;
+    team: TeamPlayersInput;
     user: UserInput;
 }
 
 export {
     Role,
     UserInput,
-    TeamInput,
+    TeamIdInput,
+    TeamPlayersInput,
     TournamentInput,
     InviteInput,
 }
