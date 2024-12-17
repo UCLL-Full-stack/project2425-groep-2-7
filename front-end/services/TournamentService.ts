@@ -21,8 +21,28 @@ const getAllTournaments = async (): Promise<Tournament[]> => {
     }
 };
 
+const createTournament = async (tournamentdata: {
+    name: string;
+    location: string;
+    game: string;
+    teams: any[]
+}) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    const response = await fetch(apiUrl + "/tournaments", {
+        method: "POST",
+        headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tournamentdata),
+    });
+    console.log(response);
+    return(response)
+}
+
 const TournamentService = {
     getAllTournaments,
+    createTournament
 }
 
 export default TournamentService;

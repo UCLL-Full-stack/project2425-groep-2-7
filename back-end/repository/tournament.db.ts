@@ -2,6 +2,7 @@ import { Team } from '../model/team';
 import { User } from '../model/user';
 import { Tournament } from '../model/tournament';
 import { PrismaClient } from '@prisma/client';
+import { TeamPlayersInput } from '../types';
 
 const database = new PrismaClient();
 
@@ -96,4 +97,27 @@ const getAllTournaments = async (): Promise<Tournament[]> => {
     }
 };
 
-export default { getAllTournaments };
+const addTournament = async (tournamentData: {
+    name: string;
+    location: string;
+    game: string;
+    teams?: TeamPlayersInput[] | undefined;
+}): Promise<Tournament> => { // Fix: Return a single Tournament instead of an array
+    try {
+        const { name, location, game} = tournamentData;
+        const createdTournament = await database.tournament.create({
+            data: {
+                name,
+                location,
+                game,
+            },
+        });
+
+        return Tournament.from(createdTournament); // Assuming you want to map the response to the Tournament model
+    } catch (error) {
+        console.error('Error adding tournament:', error);
+        throw error;
+    }
+};
+
+export default { getAllTournaments, addTournament };

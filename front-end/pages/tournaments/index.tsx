@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import useInterval from "react-useinterval";
 import TournamentTableOverview from "@/components/tournament/TournamentTableOverview";
 import Filter from "@/components/tournament/TournamentFilters";
 import TournamentService from "@/services/TournamentService";
-
+import Link from "next/link";
 const TournamentOverview: React.FC = () => {
   const [filter, setFilter] = useState(""); // Store the filter text
 
@@ -32,14 +31,31 @@ const TournamentOverview: React.FC = () => {
       </header>
       <main className="bg-gray-800 min-h-screen">
         <>
-          {error && <div className="text-red-800">{error.message}</div>}
-          {isLoading && <p>loading...</p>}
-          <Filter onFilterChange={(filterValue) => setFilter(filterValue)} />
-          {data && (
-            <TournamentTableOverview
-              tournaments={filteredTournaments || []} // Pass filtered tournaments
-            />
-          )}
+
+        <div className="flex items-center space-x-4">
+  <button className="px-9 py-2 ml-20 text-xl text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition-colors duration-300">
+    <Link href="/tournaments/register" className="w-full h-full">
+      Create team
+    </Link>
+  </button>
+
+  {error && <div className="text-red-800">{error.message}</div>}
+  {isLoading && <p>loading...</p>}
+
+  <div className="w-full px-4 py-2">
+    <Filter
+    
+      onFilterChange={(filterValue) => setFilter(filterValue)}
+      
+    />
+  </div>
+</div>
+
+{data && (
+  <TournamentTableOverview
+    tournaments={filteredTournaments || []} // Pass filtered tournaments
+  />
+)}       
         </>
       </main>
     </>

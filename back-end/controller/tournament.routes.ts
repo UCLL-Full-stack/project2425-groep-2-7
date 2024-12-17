@@ -23,6 +23,7 @@
 
 import tournamentService from '../service/tournament.service';
 import express, { NextFunction, Request, Response } from 'express';
+import { TournamentInput } from '../types';
 
 const tournamentRouter = express.Router();
 
@@ -45,6 +46,38 @@ tournamentRouter.get('/', async (req: Request, res: Response, next: NextFunction
     try {
         const tournaments = await tournamentService.getAllTournaments();
         res.status(200).json(tournaments);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /tournaments:
+ *   post:
+ *      summary: Create a new tournaments.
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Tournament'
+ *      responses:
+ *         200:
+ *            description: The created tournament.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Tournament'
+ */
+tournamentRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Request Body:", req.body);
+    try {
+        
+        const tournament = <TournamentInput>req.body;
+        console.log(tournament);
+        const result = await tournamentService.addTournament(tournament);
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

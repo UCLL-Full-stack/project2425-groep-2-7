@@ -92,7 +92,6 @@
         country: string;
         creatorId: number; // Pass the ID of the creator
       }): Promise<Team> => {
-        console.log()
         try {
         
           const { name, country, creatorId } = teamData;
