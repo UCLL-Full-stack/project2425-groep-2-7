@@ -10,9 +10,10 @@ test('given: valid values for player, when: player is created, then: player is c
     const country = 'Belgium';
     const description = 'Student';
     const email = 'daan.schoenaers@gmail.com';
+    const password = 'Hallo';
     const role = 'Admin';
     //when
-    const player = new User({ age, name, country, description, email, role });
+    const player = new User({ age, name, country, description, email, password, role });
 
     //then
     expect(player.getAge()).toEqual(age);
@@ -20,5 +21,5 @@ test('given: valid values for player, when: player is created, then: player is c
     expect(player.getCountry()).toEqual(country);
     expect(player.getDescription()).toEqual(description);
     expect(player.getEmail()).toEqual(email);
-    expect(player.getrole()).toEqual(role);
+    expect(player.getRole()).toEqual(role);
 });

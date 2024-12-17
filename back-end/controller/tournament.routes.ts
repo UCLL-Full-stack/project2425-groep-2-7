@@ -41,7 +41,7 @@ const tournamentRouter = express.Router();
  *               items:
  *                  $ref: '#/components/schemas/Tournament'
  */
-tournamentRouter.get('/', async(req: Request, res: Response, next: NextFunction) => {
+tournamentRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const tournaments = await tournamentService.getAllTournaments();
         res.status(200).json(tournaments);
@@ -50,4 +50,4 @@ tournamentRouter.get('/', async(req: Request, res: Response, next: NextFunction)
     }
 });
 
-export {tournamentRouter}
+export { tournamentRouter };
