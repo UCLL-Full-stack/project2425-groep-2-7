@@ -1,47 +1,22 @@
 import { User } from '../model/user';
 import { PrismaClient } from '@prisma/client';
 import { Role } from '../types/index';
+
 const database = new PrismaClient();
 
-const users = [
-    new User({
-        age: 21,
-        name: 'Daan Schoenaers',
-        country: 'Belgium',
-        description: 'Student',
-        email: 'daan.schoenaers@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-    new User({
-        age: 21,
-        name: 'Florian Lebrun',
-        country: 'Belgium',
-        description: 'Student',
-        email: 'florian.lebrun@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-    new User({
-        age: 21,
-        name: 'Maxim Delloye',
-        country: 'Italy',
-        description: 'Student',
-        email: 'maxim.delloye@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-
-    new User({
-        age: 21,
-        name: 'Natan Delloye',
-        country: 'Italy',
-        description: 'Student',
-        email: 'natan.delloye@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-];
+const isPrismaError = (
+    error: unknown
+): error is {
+    code: string;
+    meta?: { target?: string[] };
+} => {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as any).meta?.target
+    );
+};
 
 const getAllPlayers = async (): Promise<User[]> => {
     try {
@@ -56,20 +31,6 @@ const getAllPlayers = async (): Promise<User[]> => {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
-};
-
-const isPrismaError = (
-    error: unknown
-): error is {
-    code: string;
-    meta?: { target?: string[] };
-} => {
-    return (
-        typeof error === 'object' &&
-        error !== null &&
-        'code' in error &&
-        (error as any).meta?.target
-    );
 };
 
 const addPlayer = async (userData: {
@@ -121,4 +82,19 @@ const addPlayer = async (userData: {
     }
 };
 
-export default { getAllPlayers, addPlayer };
+// Add this method
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    try {
+        const userprisma = await database.user.findUnique({
+            where: { email },
+        });
+
+        return userprisma ? User.from(userprisma) : null;
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+// Export the updated object
+export default { getAllPlayers, addPlayer, getUserByEmail };

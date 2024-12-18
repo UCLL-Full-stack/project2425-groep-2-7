@@ -32,6 +32,7 @@
  *              description: Role of the user.
  */
 
+import { error } from 'console';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 import express, { NextFunction, Request, Response } from 'express';
@@ -81,11 +82,21 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *                schema:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.addPlayer(user);
         res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
     } catch (error) {
         next(error);
     }
