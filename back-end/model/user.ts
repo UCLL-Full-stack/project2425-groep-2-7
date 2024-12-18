@@ -2,6 +2,7 @@ import { Role } from '../types';
 import { User as UserPrisma } from '@prisma/client';
 
 export class User {
+    private id?: number | null;
     private age: number;
     private name: string;
     private country: string;
@@ -12,6 +13,7 @@ export class User {
     private teamId?: number | null;
 
     constructor({
+        id = null,
         age,
         name,
         country,
@@ -21,6 +23,7 @@ export class User {
         role,
         teamId,
     }: {
+        id?: number | null;
         age: number;
         name: string;
         country: string;
@@ -31,6 +34,7 @@ export class User {
         teamId?: number | null;
     }) {
         this.validate({ age, name, email, password });
+        this.id = id;
         this.age = age;
         this.name = name;
         this.country = country;
@@ -42,6 +46,7 @@ export class User {
     }
 
     static from({
+        id,
         age,
         name,
         country,
@@ -52,6 +57,7 @@ export class User {
         teamId,
     }: UserPrisma): User {
         return new User({
+            id,
             age,
             name,
             country,
@@ -81,16 +87,18 @@ export class User {
     }
 
     toPlainObject(): {
-    age: number;
-    name: string;
-    country: string;
-    description: string;
-    email: string;
-    password: string;
-    role?: Role | undefined;
-    teamId?: number | null;
-    } {
+        id?: number | null;
+        age: number;
+        name: string;
+        country: string;
+        description: string;
+        email: string;
+        password: string;
+        role?: Role | undefined;
+        teamId?: number | null;
+        } {
         return {
+            id: this.id,
             age: this.age,
             name: this.name,
             country: this.country,
@@ -151,5 +159,8 @@ export class User {
     }
     getPassword() {
         return this.password;
+    }
+    getId() {
+        return this.id;
     }
 }

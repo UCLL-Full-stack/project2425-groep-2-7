@@ -16,6 +16,7 @@ const getAllTeams = async (): Promise<Team[]> => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log("Teams data:", data);
         return data;
     } catch (error) {
         console.log("Error fetching teams.", error);

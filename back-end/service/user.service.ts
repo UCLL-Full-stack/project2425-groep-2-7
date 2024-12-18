@@ -30,6 +30,14 @@ const addPlayer = async ({
     return userDb.addPlayer(player.toPlainObject());
 };
 
+const getPlayerById = async (playerId: number): Promise<User> => {
+    const user = await userDb.getPlayerById(playerId);
+    if (user === undefined) {
+        throw new Error(`Player with id ${playerId} not found`);
+    }
+    return user;
+}
+
 /* const invitePlayerToTeam = ({
     message: String,
     team: TeamInput,
@@ -39,4 +47,4 @@ const addPlayer = async ({
     const invite = new Invite({message, team, user});
 }
 */
-export default { getAllPlayers, addPlayer };
+export default { getAllPlayers, addPlayer, getPlayerById };

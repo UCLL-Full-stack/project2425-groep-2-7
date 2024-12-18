@@ -3,57 +3,43 @@ import { PrismaClient } from '@prisma/client';
 import { Role } from '../types/index';
 const database = new PrismaClient();
 
-const users = [
-    new User({
-        age: 21,
-        name: 'Daan Schoenaers',
-        country: 'Belgium',
-        description: 'Student',
-        email: 'daan.schoenaers@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-    new User({
-        age: 21,
-        name: 'Florian Lebrun',
-        country: 'Belgium',
-        description: 'Student',
-        email: 'florian.lebrun@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-    new User({
-        age: 21,
-        name: 'Maxim Delloye',
-        country: 'Italy',
-        description: 'Student',
-        email: 'maxim.delloye@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-
-    new User({
-        age: 21,
-        name: 'Natan Delloye',
-        country: 'Italy',
-        description: 'Student',
-        email: 'natan.delloye@gmail.com',
-        role: 'Player',
-        password: 'password123',
-    }),
-];
 
 const getAllPlayers = async (): Promise<User[]> => {
     try {
         const userprisma = await database.user.findMany({
-            include: {
+            select: {
+                id: true, // Ensure the `id` is explicitly included
+                name: true,
+                email: true,
+                age: true,
+                country: true,
+                description: true,
+                role: true,
                 team: true,
                 invites: true,
+                password: true,
+                teamId: true,
             },
         });
         return userprisma.map((userprisma) => User.from(userprisma));
     } catch (error) {
         console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getPlayerById = async (id: number): Promise<User | undefined> => {
+    try { 
+        const userprisma = await database.user.findFirst({
+            where: {id},
+        });
+    
+    if (!userprisma) {
+        return undefined;
+    }
+    return User.from(userprisma)
+    } catch (error) {
+        console.error('Error fetching user from the database:', error);
         throw new Error('Database error. See server log for details.');
     }
 };
@@ -94,4 +80,4 @@ const addPlayer = async (userData: {
     }
 };
 
-export default { getAllPlayers, addPlayer };
+export default { getAllPlayers, addPlayer, getPlayerById };
