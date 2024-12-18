@@ -115,4 +115,51 @@ teamRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
 });
 
 
+/**
+ * @swagger
+ * /teams/{teamId}/{playerId}:
+ *   post:
+ *     summary: Add a player to the team.
+ *     description: Adds a player to a team based on the teamId and playerId, and returns the updated team.
+ *     parameters:
+ *       - in: path
+ *         name: teamId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the team to which the player will be added.
+ *       - in: path
+ *         name: playerId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the player to be added to the team.
+ *     responses:
+ *       200:
+ *         description: The updated team after adding the player.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Team'
+ *       400:
+ *         description: Invalid teamId or playerId.
+ */
+teamRouter.post('/:teamId/:playerId', async (req: Request, res: Response) => {
+    
+
+    try {
+        const { teamId, playerId } = req.params;
+        // Convert params to numbers (assuming they are passed as strings)
+        const teamIdNum = parseInt(teamId, 10);
+        const playerIdNum = parseInt(playerId, 10);
+        console.log(teamIdNum, playerIdNum);
+
+        const result = await teamService.addPlayerToTeam(playerIdNum, teamIdNum);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error adding player to team:', error);
+        res.status(500).json({ message: 'An error occurred while adding the player to the team' });
+    }
+});
+
 export { teamRouter};

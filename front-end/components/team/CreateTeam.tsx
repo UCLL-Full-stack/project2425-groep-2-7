@@ -58,7 +58,7 @@ const CreateTeam: React.FC = () => {
       const team = {
         name,
         country,
-        creatorId: 43
+        creatorId: 52
         ,
       };
       console.log(team);

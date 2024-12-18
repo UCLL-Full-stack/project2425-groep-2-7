@@ -68,8 +68,9 @@
             throw error;
         }        
     };
-
+    
     const getTeamById = async (teamId: number): Promise<Team> => {
+        console.log(teamId);
         try {
             const teamprisma = await database.team.findFirst({
                 where: {
@@ -86,6 +87,25 @@
             throw error;
         }
     }
+    
+    const addPlayerToTeam = async (teamId: number, playerId: number) => {
+        try {
+            await database.team.update({ 
+                where: { id: teamId },  
+                data: {
+                    players: {
+                        connect: { id: playerId },  
+                    },
+                },
+            });
+            console.log(`Player with ID ${playerId} added to team with ID ${teamId}`);
+            return await getTeamById(teamId);
+        } catch (error) {
+            console.log('Error adding player to team:', error);
+            throw error; 
+        }
+    };
+    
 
     const addTeam = async (teamData: {
         name: string;
@@ -118,5 +138,5 @@
       
     
 
-    export default {getAllTeams, getTeamById, addTeam};
+    export default {getAllTeams, getTeamById, addTeam, addPlayerToTeam};
 

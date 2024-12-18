@@ -56,7 +56,7 @@ const TeamTableOverview: React.FC = () => {
                                         <td className="px-4 py-2">{team.name}</td>
                                         <td className="px-4 py-2">{team.country}</td>
                                         <td className="px-4 py-2">{team.players ? team.players.length : "Dead Team"}</td>
-                                        <td className="px-4 py-2">{team.players[0].user.name}</td>
+                                        <td className="px-4 py-2">{team.players ? team.players[0].user.name : "Dead Team"}</td>
 
                                     </tr>
                                 ))}
