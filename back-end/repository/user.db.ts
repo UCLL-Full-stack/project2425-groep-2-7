@@ -44,21 +44,41 @@ const getPlayerById = async (id: number): Promise<User | undefined> => {
     }
 };
 
+const isPrismaError = (
+    error: unknown
+): error is {
+    code: string;
+    meta?: { target?: string[] };
+} => {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as any).meta?.target
+    );
+};
+
 const addPlayer = async (userData: {
     age: number;
     name: string;
     country: string;
     description: string;
     email: string;
-    password: string; 
+    password: string;
     role?: Role | undefined;
     teamId?: number | null;
 }): Promise<User> => {
     try {
-        // Create a new User instance
+        const existingUser = await database.user.findUnique({
+            where: { email: userData.email },
+        });
+
+        if (existingUser) {
+            throw new Error('A user with this email already exists.');
+        }
+
         const user = new User(userData);
 
-        // Persist the user to the database
         const createdUser = await database.user.create({
             data: {
                 age: user.getAge(),
@@ -68,13 +88,20 @@ const addPlayer = async (userData: {
                 email: user.getEmail(),
                 password: user.getPassword(), // Ensure password is hashed before storing
                 role: user.getRole(),
-                teamId: user.getTeamId() ?? null, // Convert undefined to null if necessary
+                teamId: user.getTeamId() ?? null,
             },
         });
 
-        // Return the User instance
         return User.from(createdUser);
-    } catch (error) {
+    } catch (error: unknown) {
+        if (isPrismaError(error)) {
+            const target = error.meta?.target;
+
+            if (error.code === 'P2002' && Array.isArray(target) && target.includes('email')) {
+                throw new Error('A user with this email address already exists.');
+            }
+        }
+
         console.error('Error adding user to the database:', error);
         throw error;
     }

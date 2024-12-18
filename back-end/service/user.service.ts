@@ -1,6 +1,7 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
 import { UserInput } from '../types';
+import bcrypt from 'bcrypt';
 
 const getAllPlayers = async (): Promise<User[]> => {
     const users = await userDb.getAllPlayers();
@@ -25,9 +26,21 @@ const addPlayer = async ({
             throw new Error('Player already exists');
         }
     }
+    const hashedpassword = await bcrypt.hash(password, 12);
+    console.log('Hashed password:', hashedpassword);
 
-    // Convert the User instance to a plain object before saving
-    return userDb.addPlayer(player.toPlainObject());
+    const hasheduser = new User({
+        age,
+        name,
+        country,
+        description,
+        email,
+        password: hashedpassword,
+        role: 'Player',
+    });
+    console.log('User object before saving:', hasheduser.toPlainObject());
+
+    return userDb.addPlayer(hasheduser.toPlainObject());
 };
 
 const getPlayerById = async (playerId: number): Promise<User> => {

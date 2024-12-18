@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
-import { teamRouter} from './controller/team.routes';
+import { teamRouter } from './controller/team.routes';
 import { tournamentRouter } from './controller/tournament.routes';
 
 const app = express();
@@ -36,6 +36,10 @@ const swaggerOpts = {
 };
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    res.status(400).json({ status: 'application error', message: err.message });
+});
 
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);

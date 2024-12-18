@@ -81,9 +81,9 @@ export class User {
         password: string;
     }) {
         if (!age) throw new Error('Age is required');
-        if (!name) throw new Error('Name is required');
-        if (!email) throw new Error('Email is required');
-        if (!password) throw new Error('Password is required');
+        if (!name?.trim()) throw new Error('Name is required');
+        if (!email?.trim()) throw new Error('Email is required');
+        if (!password?.trim()) throw new Error('Password is required');
     }
 
     toPlainObject(): {
@@ -119,18 +119,17 @@ export class User {
         password: string;
         role?: Role | undefined;
     }): boolean {
-    return (
-        this.getAge() === user.age &&
-        this.getName() === user.name &&
-        this.getCountry() === user.country &&
-        this.getDescription() === user.description &&
-        this.getEmail() === user.email &&
-        this.getPassword() === user.password &&
-        this.getRole() === user.role
-    );
+        return (
+            this.getAge() === user.age &&
+            this.getName() === user.name &&
+            this.getCountry() === user.country &&
+            this.getDescription() === user.description &&
+            this.getEmail() === user.email &&
+            this.getPassword() === user.password &&
+            this.getRole() === user.role
+        );
     }
 
-    
     getAge() {
         return this.age;
     }
