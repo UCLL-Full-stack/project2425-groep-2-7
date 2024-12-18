@@ -39,6 +39,24 @@
  *         userId:
  *           type: integer
  *           description: The ID of the user being invited.
+ *     AuthenticationResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *           description: Login token.
+ *         email:
+ *           type: string
+ *           description: Corresponding email.
+ *     LoginRequest:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: Email.
+ *         password:
+ *           type: string
+ *           description: Password.
  */
 
 import { error } from 'console';
@@ -158,20 +176,24 @@ userRouter.post('/register', async (req: Request, res: Response, next: NextFunct
  * @swagger
  * /players/invite:
  *   post:
- *      summary: Create a new Invite.
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Invite'
- *      responses:
- *         200:
- *            description: The created Invite with the right Teamid and userId
- *            content:
- *              application/json:
- *                schema:
- *                  $ref: '#/components/schemas/Invite'
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Create a new Invite.
+ *     tags:
+ *       - Players
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Invite'
+ *     responses:
+ *       200:
+ *         description: The created Invite with the correct teamId and userId.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Invite'
  */
 userRouter.post('/invite', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -214,17 +236,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     try {
         const user = <UserInput>req.body;
         const response = await userService.authenticate(user);
-        res.status(200).json({ message: 'Authentication Succesfull', ...response });
-    } catch (error) {
-        next(error);
-    }
-});
-
-userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = <UserInput>req.body;
-        const response = await userService.authenticate(user);
-        res.status(200).json({ message: 'Authentication Succesfull', ...response });
+        res.status(200).json({ message: 'Authentication Successful', ...response });
     } catch (error) {
         next(error);
     }
