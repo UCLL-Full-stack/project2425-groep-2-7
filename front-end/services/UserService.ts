@@ -1,5 +1,5 @@
 import { User } from "@/types";
-
+import { Invite } from "@/types";
 const getAllUsers = async (): Promise<User[]> => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -54,10 +54,22 @@ const registerUser = (user: User) => {
   });
 };
 
+const createInvite = (invite: Invite) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  return fetch(apiUrl + "/players/invite", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(invite),
+  });
+}
+
 const UserService = {
   getAllUsers,
   registerUser,
-  getUserById
+  getUserById,
+  createInvite
 };
 
 export default UserService;

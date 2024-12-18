@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { User } from '@/types';
 import UserService from "@/services/UserService";
 import TeamService from '@/services/TeamService';
+import UserInvite from './UserInviteButton';
 
-// Component to fetch and display the team name dynamically
 const TeamName: React.FC<{ teamId: number | null }> = ({ teamId }) => {
     const [teamName, setTeamName] = useState<string | null>(null);
 
@@ -31,7 +31,8 @@ const TeamName: React.FC<{ teamId: number | null }> = ({ teamId }) => {
 const UserTableOverview: React.FC = () => {
     const [players, setPlayers] = useState<User[]>([]);
     const [error, setError] = useState<string | null>(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState<string>('');
     useEffect(() => {
         const fetchPlayers = async () => {
             try {
@@ -45,6 +46,16 @@ const UserTableOverview: React.FC = () => {
 
         fetchPlayers();
     }, []);
+
+    const handleOpenModal = (content: string) => {
+        setModalContent(content);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setModalContent('');
+    };
 
     return (
         <>
@@ -64,6 +75,8 @@ const UserTableOverview: React.FC = () => {
                                     <th className="px-4 py-2 text-left">Country</th>
                                     <th className="px-4 py-2 text-left">Team</th>
                                     <th className="px-4 py-2 text-left">Description</th>
+                                    <th className="px-4 py-2 text-left">Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,6 +95,14 @@ const UserTableOverview: React.FC = () => {
                                             <TeamName teamId={player.teamId || null} />
                                         </td>
                                         <td className="px-4 py-2">{player.description}</td>
+                                        <td className="px-4 py-2">
+                                            <button
+                                                onClick={() => handleOpenModal(`Are you sure you want to invite ${player.name} to your team? `)}
+                                                className="bg-blue-500 text-white py-1 px-3 rounded"
+                                            >
+                                                Invite to Team
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -89,6 +110,9 @@ const UserTableOverview: React.FC = () => {
                     </div>
                 )}
             </main>
+            
+            <UserInvite isOpen={isModalOpen} onClose={handleCloseModal} content={modalContent} />
+
         </>
     );
 };

@@ -31,9 +31,8 @@ type TournamentInput = {
 }
 
 type InviteInput = {
-    message: string;
-    team: TeamPlayersInput;
-    user: UserInput;
+    teamId: number;
+    userId: number;
 }
 
 export {

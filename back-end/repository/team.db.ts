@@ -72,9 +72,13 @@
     const getTeamById = async (teamId: number): Promise<Team> => {
         console.log(teamId);
         try {
+            const parsedTeamId = parseInt(teamId.toString(), 10);
+            if (isNaN(parsedTeamId)) {
+                throw new Error(`Invalid teamId: ${teamId}. It should be an integer.`);
+            }
             const teamprisma = await database.team.findFirst({
                 where: {
-                    id: teamId
+                    id: parsedTeamId
                 },
                 include: {
                     players: true
