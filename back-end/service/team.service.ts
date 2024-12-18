@@ -20,7 +20,7 @@ const getTeamById = async (teamId: number): Promise<Team> => {
 };
 
 
-export const addTeam = async (teamData: {
+const addTeam = async (teamData: {
   name: string;
   country: string;
   creatorId: number; // ID of the user creating the team

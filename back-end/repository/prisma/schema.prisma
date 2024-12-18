@@ -41,7 +41,6 @@ model Tournament {
 
 model Invite {
   id      Int    @id @default(autoincrement())
-  message String
   teamId  Int // Relation to Team
   userId  Int // Relation to User
   team    Team   @relation(fields: [teamId], references: [id])

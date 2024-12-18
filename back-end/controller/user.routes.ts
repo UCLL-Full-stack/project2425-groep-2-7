@@ -30,32 +30,21 @@
  *         role:
  *           type: string
  *           description: Role of the user.
- *     LoginRequest:
+ *     Invite:
  *       type: object
  *       properties:
- *         email:
- *           type: string
- *           format: email
- *           description: Email of the user.
- *         password:
- *           type: string
- *           format: password
- *           description: Password of the user.
- *     AuthenticationResponse:
- *       type: object
- *       properties:
- *         token:
- *           type: string
- *           description: JWT token for the authenticated user.
- *         email:
- *           type: string
- *           format: email
- *           description: Email of the authenticated user.
+ *         teamId:
+ *           type: integer
+ *           description: The ID of the team to which the player is being invited.
+ *         userId:
+ *           type: integer
+ *           description: The ID of the user being invited.
  */
 
 import { error } from 'console';
 import userService from '../service/user.service';
-import { UserInput } from '../types';
+import inviteService from '../service/invite.service';
+import { UserInput, InviteInput } from '../types';
 import express, { NextFunction, Request, Response } from 'express';
 
 const userRouter = express.Router();
@@ -167,6 +156,35 @@ userRouter.post('/register', async (req: Request, res: Response, next: NextFunct
 
 /**
  * @swagger
+ * /players/invite:
+ *   post:
+ *      summary: Create a new Invite.
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Invite'
+ *      responses:
+ *         200:
+ *            description: The created Invite with the right Teamid and userId
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Invite'
+ */
+userRouter.post('/invite', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const invite = <InviteInput>req.body;
+        const result = await inviteService.addInvite(invite);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /players/login:
  *   post:
  *     security:
@@ -196,7 +214,17 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     try {
         const user = <UserInput>req.body;
         const response = await userService.authenticate(user);
-        res.status(200).json({ message: 'Authentication successful', ...response });
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
     } catch (error) {
         next(error);
     }

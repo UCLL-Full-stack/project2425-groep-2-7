@@ -30,3 +30,7 @@ export type Tournament = {
   }[];
 };
 
+export type Invite = {
+  teamId: number;
+  userId: number;
+}

@@ -1,26 +1,29 @@
-import { Team } from './team';
-import { User } from './user';
-
+import { Invite as InvitePrisma} from '@prisma/client'
 export class Invite {
-    private message: string;
-    private team: Team;
-    private user: User;
+    private teamId: number;
+    private userId: number;
 
-    constructor(invite: { message: string; team: Team; user: User }) {
+    constructor(invite: {teamId: number; userId: number }) {
         this.validate(invite);
-        this.message = invite.message;
-        this.team = invite.team;
-        this.user = invite.user;
+        this.teamId = invite.teamId;
+        this.userId = invite.userId;
     }
-    validate(invite: { message: string; team: Team; user: User }) {
-        if (!invite.team) {
-            throw new Error('Team not found');
+    validate(invite: { teamId: number; userId: number }) {
+        if (!invite.teamId) {
+            throw new Error('InvalidTeamId');
         }
-        if (!invite.user) {
-            throw new Error('User not found');
+        if (!invite.userId) {
+            throw new Error('Invalid UserId');
         }
     }
-    equals({ message, team, user }: { message: String; team: Team; user: User }): boolean {
-        return this.message == message && this.team == team && this.user == user;
+    equals({  teamId, userId }: {  teamId: number; userId: number }): boolean {
+        return  this.teamId == teamId && this.userId == userId;
     }
-}
+
+    static from({
+        teamId,
+        userId
+    }: InvitePrisma): Invite {
+        return new Invite({ teamId, userId });
+    }
+};
