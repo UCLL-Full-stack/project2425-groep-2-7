@@ -65,6 +65,37 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
+ * /players/{userId}:
+ *   get:
+ *     summary: Get a user by ID.
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         description: ID of the user to retrieve.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: A single user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+userRouter.get('/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        console.log(userId);
+        const player = await userService.getPlayerById(userId);
+        res.status(200).json(player);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /players:
  *   post:
  *      summary: Create a new Player.
@@ -87,6 +118,16 @@ userRouter.post('/register', async (req: Request, res: Response, next: NextFunct
         const user = <UserInput>req.body;
         const result = await userService.addPlayer(user);
         res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
     } catch (error) {
         next(error);
     }

@@ -68,6 +68,14 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
     };
 };
 
+const getPlayerById = async (playerId: number): Promise<User> => {
+    const user = await userDb.getPlayerById(playerId);
+    if (user === undefined) {
+        throw new Error(`Player with id ${playerId} not found`);
+    }
+    return user;
+};
+
 /* const invitePlayerToTeam = ({
     message: String,
     team: TeamInput,
@@ -77,4 +85,4 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
     const invite = new Invite({message, team, user});
 }
 */
-export default { getAllPlayers, addPlayer, getUserByEmail, authenticate };
+export default { getAllPlayers, addPlayer, getUserByEmail, authenticate, getPlayerById };

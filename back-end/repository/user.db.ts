@@ -21,14 +21,39 @@ const isPrismaError = (
 const getAllPlayers = async (): Promise<User[]> => {
     try {
         const userprisma = await database.user.findMany({
-            include: {
+            select: {
+                id: true, // Ensure the `id` is explicitly included
+                name: true,
+                email: true,
+                age: true,
+                country: true,
+                description: true,
+                role: true,
                 team: true,
                 invites: true,
+                password: true,
+                teamId: true,
             },
         });
         return userprisma.map((userprisma) => User.from(userprisma));
     } catch (error) {
         console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getPlayerById = async (id: number): Promise<User | undefined> => {
+    try {
+        const userprisma = await database.user.findFirst({
+            where: { id },
+        });
+
+        if (!userprisma) {
+            return undefined;
+        }
+        return User.from(userprisma);
+    } catch (error) {
+        console.error('Error fetching user from the database:', error);
         throw new Error('Database error. See server log for details.');
     }
 };
@@ -97,4 +122,4 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
 };
 
 // Export the updated object
-export default { getAllPlayers, addPlayer, getUserByEmail };
+export default { getAllPlayers, addPlayer, getPlayerById, getUserByEmail };

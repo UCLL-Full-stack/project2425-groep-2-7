@@ -19,6 +19,29 @@ const getAllUsers = async (): Promise<User[]> => {
   }
 };
 
+const getUserById = async (userId: number): Promise<User> => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log(userId);
+  try {
+    const response = await fetch(`/${apiUrl}/players/${userId}`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      
+      
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  const data : User = await response.json()
+  return data;
+  } catch (error) {
+  console.error("Error fetching user:", error);
+  throw error;
+  }
+};
+
 
 const registerUser = (user: User) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -34,6 +57,7 @@ const registerUser = (user: User) => {
 const UserService = {
   getAllUsers,
   registerUser,
+  getUserById
 };
 
 export default UserService;

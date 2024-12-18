@@ -18,7 +18,7 @@ const TeamTableOverview: React.FC = () => {
                 setTeams(teamsData);
             } catch (err) {
                 setError('Could not load teams. Please try again later.');
-                console.error(err);
+                console.error('here thhe');
             }
         };
 
@@ -42,6 +42,7 @@ const TeamTableOverview: React.FC = () => {
                                     <th className="px-4 py-2 text-left">Country</th>
                                     <th className="px-4 py-2 text-left">Number of Players</th>
                                     <th className="px-4 py-2 text-left">Leader</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,7 +56,8 @@ const TeamTableOverview: React.FC = () => {
                                         <td className="px-4 py-2">{team.name}</td>
                                         <td className="px-4 py-2">{team.country}</td>
                                         <td className="px-4 py-2">{team.players ? team.players.length : "Dead Team"}</td>
-                                        <td className="px-4 py-2">{team.players ? team.players[0].user.name : "Dead Team" }</td>
+                                        <td className="px-4 py-2">{team.players ? team.players[0].user.name : "Dead Team"}</td>
+
                                     </tr>
                                 ))}
                             </tbody>

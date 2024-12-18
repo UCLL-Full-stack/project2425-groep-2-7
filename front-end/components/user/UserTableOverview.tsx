@@ -60,6 +60,7 @@ const UserTableOverview: React.FC = () => {
                             <thead className="bg-red-700">
                                 <tr>
                                     <th className="px-4 py-2 text-left">Player</th>
+                                    <th className="px-4 py-2 text-left">Age</th>
                                     <th className="px-4 py-2 text-left">Country</th>
                                     <th className="px-4 py-2 text-left">Team</th>
                                     <th className="px-4 py-2 text-left">Description</th>
@@ -74,6 +75,8 @@ const UserTableOverview: React.FC = () => {
                                         }`}
                                     >
                                         <td className="px-4 py-2">{player.name}</td>
+                                        <td className="px-4 py-2">{player.age}</td>
+
                                         <td className="px-4 py-2">{player.country}</td>
                                         <td className="px-4 py-2">
                                             <TeamName teamId={player.teamId || null} />

@@ -1,6 +1,7 @@
 type Role = 'Player' | 'Admin' | 'Coach';
 
 type UserInput = {
+    id: number;
     age: number;
     name: string;
     country: string;

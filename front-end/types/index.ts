@@ -17,7 +17,7 @@ export type Team = {
   name: string;
   country: string;
   players: {
-    id: number;
+    user: User
   }[];
 };
 
