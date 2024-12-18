@@ -1,8 +1,22 @@
 import { User } from '../model/user';
 import { PrismaClient } from '@prisma/client';
 import { Role } from '../types/index';
+
 const database = new PrismaClient();
 
+const isPrismaError = (
+    error: unknown
+): error is {
+    code: string;
+    meta?: { target?: string[] };
+} => {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        (error as any).meta?.target
+    );
+};
 
 const getAllPlayers = async (): Promise<User[]> => {
     try {
@@ -29,33 +43,19 @@ const getAllPlayers = async (): Promise<User[]> => {
 };
 
 const getPlayerById = async (id: number): Promise<User | undefined> => {
-    try { 
+    try {
         const userprisma = await database.user.findFirst({
-            where: {id},
+            where: { id },
         });
-    
-    if (!userprisma) {
-        return undefined;
-    }
-    return User.from(userprisma)
+
+        if (!userprisma) {
+            return undefined;
+        }
+        return User.from(userprisma);
     } catch (error) {
         console.error('Error fetching user from the database:', error);
         throw new Error('Database error. See server log for details.');
     }
-};
-
-const isPrismaError = (
-    error: unknown
-): error is {
-    code: string;
-    meta?: { target?: string[] };
-} => {
-    return (
-        typeof error === 'object' &&
-        error !== null &&
-        'code' in error &&
-        (error as any).meta?.target
-    );
 };
 
 const addPlayer = async (userData: {
@@ -107,4 +107,19 @@ const addPlayer = async (userData: {
     }
 };
 
-export default { getAllPlayers, addPlayer, getPlayerById };
+// Add this method
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    try {
+        const userprisma = await database.user.findUnique({
+            where: { email },
+        });
+
+        return userprisma ? User.from(userprisma) : null;
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+// Export the updated object
+export default { getAllPlayers, addPlayer, getPlayerById, getUserByEmail };

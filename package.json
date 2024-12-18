@@ -11,6 +11,8 @@
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
+        "express-jwt": "^8.5.1",
+        "jsonwebtoken": "^9.0.2",
         "project2425-groep-2-7": "file:"
     }
 }

@@ -41,7 +41,7 @@
  *           description: The ID of the user being invited.
  */
 
-
+import { error } from 'console';
 import userService from '../service/user.service';
 import inviteService from '../service/invite.service';
 import { UserInput, InviteInput } from '../types';
@@ -73,7 +73,6 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-
 /**
  * @swagger
  * /players/{userId}:
@@ -101,7 +100,7 @@ userRouter.get('/:userId', async (req: Request, res: Response, next: NextFunctio
         const player = await userService.getPlayerById(userId);
         res.status(200).json(player);
     } catch (error) {
-        next(error)
+        next(error);
     }
 });
 
@@ -124,7 +123,7 @@ userRouter.get('/:userId', async (req: Request, res: Response, next: NextFunctio
  *                schema:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.addPlayer(user);
@@ -163,6 +162,26 @@ userRouter.post('/invite', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
+    } catch (error) {
+        next(error);
+    }
+});
 
-export {userRouter};
 
+
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = <UserInput>req.body;
+        const response = await userService.authenticate(user);
+        res.status(200).json({ message: 'Authentication Succesfull', ...response });
+    } catch (error) {
+        next(error);
+    }
+});
+
+export { userRouter };

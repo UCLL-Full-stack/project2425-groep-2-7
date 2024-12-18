@@ -1,5 +1,4 @@
-
-type Role = 'Player' | 'Admin' | 'Coach' 
+type Role = 'Player' | 'Admin' | 'Coach';
 
 type UserInput = {
     id: number;
@@ -10,30 +9,36 @@ type UserInput = {
     email: string;
     password: string;
     role?: Role | undefined;
-}
+};
 
 type TeamIdInput = {
     name: string;
     country: string;
-    creatorId:  number;
-}
+    creatorId: number;
+};
 type TeamPlayersInput = {
     name: string;
     country: string;
     players: UserInput[];
-}
+};
 
 type TournamentInput = {
     name: string;
     location: string;
     game: string;
     teams?: TeamPlayersInput[];
-}
+};
 
 type InviteInput = {
-    teamId: number;
-    userId: number;
-}
+    message: string;
+    team: TeamPlayersInput;
+    user: UserInput;
+};
+
+type AuthenticationResponse = {
+    token: string;
+    email: string;
+};
 
 export {
     Role,
@@ -42,4 +47,5 @@ export {
     TeamPlayersInput,
     TournamentInput,
     InviteInput,
-}
+    AuthenticationResponse,
+};

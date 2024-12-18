@@ -1,7 +1,9 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
-import { UserInput } from '../types';
+import { AuthenticationResponse, UserInput } from '../types';
 import bcrypt from 'bcrypt';
+import { generateJwtToken } from '../util/jwt';
+import { error } from 'console';
 
 const getAllPlayers = async (): Promise<User[]> => {
     const users = await userDb.getAllPlayers();
@@ -43,13 +45,36 @@ const addPlayer = async ({
     return userDb.addPlayer(hasheduser.toPlainObject());
 };
 
+// getUserByEmail function with destructuring
+const getUserByEmail = async ({ email }: { email: string }): Promise<User> => {
+    const user = await userDb.getUserByEmail(email);
+
+    if (!user) {
+        throw new Error(`User with email: ${email} does not exist`);
+    }
+    return user;
+};
+
+const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
+    const user = await getUserByEmail({ email });
+
+    const isValidPassword = await bcrypt.compare(password, user.getPassword());
+    if (!isValidPassword) {
+        throw new Error('incorrect password.');
+    }
+    return {
+        token: generateJwtToken({ email }),
+        email,
+    };
+};
+
 const getPlayerById = async (playerId: number): Promise<User> => {
     const user = await userDb.getPlayerById(playerId);
     if (user === undefined) {
         throw new Error(`Player with id ${playerId} not found`);
     }
     return user;
-}
+};
 
 /* const invitePlayerToTeam = ({
     message: String,
@@ -60,4 +85,4 @@ const getPlayerById = async (playerId: number): Promise<User> => {
     const invite = new Invite({message, team, user});
 }
 */
-export default { getAllPlayers, addPlayer, getPlayerById };
+export default { getAllPlayers, addPlayer, getUserByEmail, authenticate, getPlayerById };
