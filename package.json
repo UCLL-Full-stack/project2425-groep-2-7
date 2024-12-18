@@ -10,6 +10,7 @@
         "schema": "back-end/repository/prisma/schema.prisma"
     },
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "project2425-groep-2-7": "file:"
     }
 }
