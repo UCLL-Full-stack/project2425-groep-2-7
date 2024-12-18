@@ -1,45 +1,30 @@
 import * as dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import * as bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { teamRouter } from './controller/team.routes';
 import { tournamentRouter } from './controller/tournament.routes';
-import { expressjwt } from 'express-jwt';
+import { expressjwt, UnauthorizedError } from 'express-jwt';
+
+dotenv.config();
 
 const app = express();
-dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
-app.use(cors());
-app.use(bodyParser.json());
-
+// Ensure JWT_SECRET is defined
 if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET is not defined in the environment variables');
 }
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Mock JWT Secret (make sure to set it in your .env file)
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
-app.use(
-    expressjwt({
-        secret: JWT_SECRET,
-        algorithms: ['HS256'],
-    }).unless({
-        path: ['/api-docs/', /^\/apidocs\/?.*/, '/players/login', '/players/register', '/status'],
-    })
-);
-
-app.use('/players', userRouter);
-app.use('/teams', teamRouter);
-app.use('/tournaments', tournamentRouter);
-
-app.get('/status', (req, res) => {
-    res.json({ message: 'Back-end is running...' });
-});
-
+// Swagger setup
 const swaggerOpts = {
     definition: {
         openapi: '3.0.0',
@@ -49,19 +34,48 @@ const swaggerOpts = {
             description: 'API for managing tournaments, teams, and players',
         },
     },
-    apis: ['./controller/*.routes.ts'],
+    apis: ['./controller/*.routes.ts'], // Update this path to match your file structure
 };
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).json({ status: 'application error', message: err.message });
-    } else {
-        res.status(400).json({ status: 'application error', message: err.message });
-    }
+// JWT Middleware
+app.use(
+    expressjwt({
+        secret: JWT_SECRET,
+        algorithms: ['HS256'],
+    }).unless({
+        path: [
+            '/api-docs',
+            /^\/api-docs\/?.*/, // Ensure all paths under `/api-docs` are excluded
+            '/players/login',
+            '/players/register',
+            '/status',
+        ],
+    })
+);
+
+// Routes
+app.use('/players', userRouter);
+app.use('/teams', teamRouter);
+app.use('/tournaments', tournamentRouter);
+
+// Health-check route
+app.get('/status', (req: Request, res: Response) => {
+    res.json({ message: 'Back-end is running...' });
 });
 
-app.listen(port || 3000, () => {
+// Error-handling middleware
+app.use((err: Error | UnauthorizedError, req: Request, res: Response, next: NextFunction) => {
+    if (err.name === 'UnauthorizedError') {
+        return res.status(401).json({ status: 'unauthorized', message: err.message });
+    }
+
+    console.error('Application Error:', err.message); // Log other errors for debugging
+    res.status(400).json({ status: 'application error', message: err.message });
+});
+
+// Server start
+app.listen(port, () => {
     console.log(`Back-end is running on port ${port}.`);
 });

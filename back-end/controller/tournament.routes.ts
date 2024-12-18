@@ -31,6 +31,8 @@ const tournamentRouter = express.Router();
  * @swagger
  * /tournaments:
  *   get:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Get a list of all tournaments.
  *     responses:
  *       200:
@@ -55,6 +57,8 @@ tournamentRouter.get('/', async (req: Request, res: Response, next: NextFunction
  * @swagger
  * /tournaments:
  *   post:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Create a new tournaments.
  *      requestBody:
  *        required: true
@@ -71,9 +75,8 @@ tournamentRouter.get('/', async (req: Request, res: Response, next: NextFunction
  *                  $ref: '#/components/schemas/Tournament'
  */
 tournamentRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    console.log("Request Body:", req.body);
+    console.log('Request Body:', req.body);
     try {
-        
         const tournament = <TournamentInput>req.body;
         console.log(tournament);
         const result = await tournamentService.addTournament(tournament);

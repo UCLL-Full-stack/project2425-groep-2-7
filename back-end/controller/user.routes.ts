@@ -1,35 +1,56 @@
 /**
  * @swagger
- *   components:
- *    securitySchemes:
+ * components:
+ *   securitySchemes:
  *     bearerAuth:
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT
- *    schemas:
- *      User:
- *          type: object
- *          properties:
- *            age:
- *              type: integer
- *              format: int32
- *              description: Age of the user.
- *            name:
- *              type: string
- *              description: Name of the user.
- *            country:
- *              type: string
- *              description: Country of the user.
- *            description:
- *              type: string
- *              description: Description of the user.
- *            email:
- *              type: string
- *              format: email
- *              description: Email of the user.
- *            role:
- *              type: string
- *              description: Role of the user.
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         age:
+ *           type: integer
+ *           format: int32
+ *           description: Age of the user.
+ *         name:
+ *           type: string
+ *           description: Name of the user.
+ *         country:
+ *           type: string
+ *           description: Country of the user.
+ *         description:
+ *           type: string
+ *           description: Description of the user.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email of the user.
+ *         role:
+ *           type: string
+ *           description: Role of the user.
+ *     LoginRequest:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email of the user.
+ *         password:
+ *           type: string
+ *           format: password
+ *           description: Password of the user.
+ *     AuthenticationResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *           description: JWT token for the authenticated user.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email of the authenticated user.
  */
 
 import { error } from 'console';
@@ -43,7 +64,11 @@ const userRouter = express.Router();
  * @swagger
  * /players:
  *   get:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Get a list of all players.
+ *     tags:
+ *       - Players
  *     responses:
  *       200:
  *         description: A list of players.
@@ -52,7 +77,9 @@ const userRouter = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                  $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Server error.
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -67,7 +94,11 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /players/{userId}:
  *   get:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Get a user by ID.
+ *     tags:
+ *       - Players
  *     parameters:
  *       - name: userId
  *         in: path
@@ -82,11 +113,14 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Server error.
  */
 userRouter.get('/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.userId);
-        console.log(userId);
         const player = await userService.getPlayerById(userId);
         res.status(200).json(player);
     } catch (error) {
@@ -96,48 +130,73 @@ userRouter.get('/:userId', async (req: Request, res: Response, next: NextFunctio
 
 /**
  * @swagger
- * /players:
+ * /players/register:
  *   post:
- *      summary: Create a new Player.
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/User'
- *      responses:
- *         200:
- *            description: The created User with the 'Player' role.
- *            content:
- *              application/json:
- *                schema:
- *                  $ref: '#/components/schemas/User'
+ *     security:
+ *     - bearerAuth: []
+ *     summary: Create a new Player.
+ *     tags:
+ *       - Players
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: The created User with the 'Player' role.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request. Validation error.
+ *       500:
+ *         description: Server error.
  */
 userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.addPlayer(user);
-        res.status(200).json(result);
+        res.status(201).json(result);
     } catch (error) {
         next(error);
     }
 });
 
+/**
+ * @swagger
+ * /players/login:
+ *   post:
+ *     security:
+ *     - bearerAuth: []
+ *     summary: Authenticate a user.
+ *     tags:
+ *       - Players
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginRequest'
+ *     responses:
+ *       200:
+ *         description: Authentication successful.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthenticationResponse'
+ *       401:
+ *         description: Unauthorized. Invalid credentials.
+ *       500:
+ *         description: Server error.
+ */
 userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = <UserInput>req.body;
         const response = await userService.authenticate(user);
-        res.status(200).json({ message: 'Authentication Succesfull', ...response });
-    } catch (error) {
-        next(error);
-    }
-});
-
-userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = <UserInput>req.body;
-        const response = await userService.authenticate(user);
-        res.status(200).json({ message: 'Authentication Succesfull', ...response });
+        res.status(200).json({ message: 'Authentication successful', ...response });
     } catch (error) {
         next(error);
     }

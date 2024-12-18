@@ -28,6 +28,8 @@ const teamRouter = express.Router();
  * @swagger
  * /teams:
  *   get:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Get a list of all teams.
  *     responses:
  *       200:
@@ -52,6 +54,8 @@ teamRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /teams/{teamId}:
  *   get:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Get a specific team by its ID.
  *     parameters:
  *       - in: path
@@ -86,6 +90,8 @@ teamRouter.get('/:teamId', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /teams:
  *   post:
+ *      security:
+ *      - bearerAuth: []
  *      summary: Create a new team.
  *      requestBody:
  *        required: true
@@ -102,9 +108,8 @@ teamRouter.get('/:teamId', async (req: Request, res: Response, next: NextFunctio
  *                  $ref: '#/components/schemas/Team'
  */
 teamRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    console.log("Request Body:", req.body);
+    console.log('Request Body:', req.body);
     try {
-        
         const team = <TeamIdInput>req.body;
         console.log(team);
         const result = await teamService.addTeam(team);
@@ -114,11 +119,12 @@ teamRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
-
 /**
  * @swagger
  * /teams/{teamId}/{playerId}:
  *   post:
+ *     security:
+ *     - bearerAuth: []
  *     summary: Add a player to the team.
  *     description: Adds a player to a team based on the teamId and playerId, and returns the updated team.
  *     parameters:
@@ -145,8 +151,6 @@ teamRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
  *         description: Invalid teamId or playerId.
  */
 teamRouter.post('/:teamId/:playerId', async (req: Request, res: Response) => {
-    
-
     try {
         const { teamId, playerId } = req.params;
         // Convert params to numbers (assuming they are passed as strings)
@@ -162,4 +166,4 @@ teamRouter.post('/:teamId/:playerId', async (req: Request, res: Response) => {
     }
 });
 
-export { teamRouter};
+export { teamRouter };
