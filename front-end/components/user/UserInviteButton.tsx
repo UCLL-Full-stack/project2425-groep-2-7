@@ -5,11 +5,24 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     content: string;
+    userId: number;
 }
 
-const UserInvite: React.FC<ModalProps> = ({ isOpen, onClose, content }) => {
-    if (!isOpen) return null;
+const UserInvite: React.FC<ModalProps> = ({ isOpen, onClose, content, userId }) => {
+    const handleInvite = async () => {
+        try {
+            // Call your invite API here
+            await UserService.createInvite(userId);
+            alert("User invited successfully!");
+            onClose(); // Close modal after successful invite
+        } catch (error) {
+            console.error("Failed to send invite:", error);
+            alert("Failed to invite the user. Please try again.");
+        }
+    };
 
+    if (!isOpen) return null;
+    
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg w-1/2">
@@ -24,7 +37,7 @@ const UserInvite: React.FC<ModalProps> = ({ isOpen, onClose, content }) => {
                 </button>
                 <button
                     className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-                    onClick={onClose}
+                    onClick={ handleInvite}
                 >
                     Invite
                 </button>

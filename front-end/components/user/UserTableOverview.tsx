@@ -33,6 +33,8 @@ const UserTableOverview: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>("");
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
@@ -51,14 +53,17 @@ const UserTableOverview: React.FC = () => {
     fetchPlayers();
   }, []);
 
-  const handleOpenModal = (content: string) => {
+  const handleOpenModal = (content: string, userId: number) => {
     setModalContent(content);
+    setSelectedUserId(userId); 
     setIsModalOpen(true);
+    console.log(selectedUserId);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setModalContent("");
+    setSelectedUserId(null);
   };
 
   return (
@@ -102,7 +107,8 @@ const UserTableOverview: React.FC = () => {
                       <button
                         onClick={() =>
                           handleOpenModal(
-                            `Are you sure you want to invite ${player.name} to your team? `
+                            `Are you sure you want to invite ${player.name} to your team? `,
+                            player.id
                           )
                         }
                         className="bg-blue-500 text-white py-1 px-3 rounded"
@@ -122,6 +128,7 @@ const UserTableOverview: React.FC = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         content={modalContent}
+        userId={selectedUserId!}
       />
     </>
   );
