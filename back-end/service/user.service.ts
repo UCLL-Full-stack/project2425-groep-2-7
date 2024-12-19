@@ -45,8 +45,7 @@ const addPlayer = async ({
     return userDb.addPlayer(hasheduser.toPlainObject());
 };
 
-// getUserByEmail function with destructuring
-const getUserByEmail = async ({ email }: { email: string }): Promise<User> => {
+const getUserByEmail = async ( email: string ): Promise<User> => {
     const user = await userDb.getUserByEmail(email);
 
     if (!user) {
@@ -56,7 +55,7 @@ const getUserByEmail = async ({ email }: { email: string }): Promise<User> => {
 };
 
 const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
-    const user = await getUserByEmail({ email });
+    const user = await getUserByEmail(email );
 
     const isValidPassword = await bcrypt.compare(password, user.getPassword());
     if (!isValidPassword) {
@@ -76,13 +75,5 @@ const getPlayerById = async (playerId: number): Promise<User> => {
     return user;
 };
 
-/* const invitePlayerToTeam = ({
-    message: String,
-    team: TeamInput,
-    user: UserInput,
-}:InviteInput): Invite  => {
 
-    const invite = new Invite({message, team, user});
-}
-*/
 export default { getAllPlayers, addPlayer, getUserByEmail, authenticate, getPlayerById };

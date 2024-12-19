@@ -30,6 +30,7 @@ type TournamentInput = {
 };
 
 type InviteInput = {
+    id: number;
     teamId: number;
     userId: number;
 };

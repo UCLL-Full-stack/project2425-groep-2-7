@@ -72,10 +72,25 @@ const createTeam = async (teamData: {
   return response;
 };
 
+const addPlayerToTeam = async (teamId: number, userId: number) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const loggedInUser = sessionStorage.getItem("loggedInUser");
+  const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+
+  const response = await fetch(`${apiUrl}/players/${teamId}/${userId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 const TeamService = {
   getAllTeams,
   getTeamById,
   createTeam,
+  addPlayerToTeam
 };
 
 export default TeamService;

@@ -13,7 +13,6 @@ const TeamOverview: React.FC = () => {
         </button>
         </div>
             <main className="bg-gray-800 min-h-screen">
-                {/* Display the team table overview */}
                 <TeamTableOverview />
             </main>
         </>

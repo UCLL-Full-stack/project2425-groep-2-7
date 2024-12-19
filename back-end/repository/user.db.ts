@@ -43,6 +43,7 @@ const getAllPlayers = async (): Promise<User[]> => {
 };
 
 const getPlayerById = async (id: number): Promise<User | undefined> => {
+    console.log(id)
     try {
         const userprisma = await database.user.findFirst({
             where: { id },
@@ -117,7 +118,7 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
         return userprisma ? User.from(userprisma) : null;
     } catch (error) {
         console.error('Error fetching user by email:', error);
-        throw new Error('Database error. See server log for details.');
+        throw new Error('Datadzadzr. See server log for details.');
     }
 };
 

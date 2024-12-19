@@ -12,7 +12,9 @@ const CreateTeam: React.FC = () => {
   const [status, setStatus] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
-    
+  const [loggedUser, setLoggedUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); // Add loading state
+  const [Id, setId] = useState<number | null>(null); // State for teamI
   const [nameError, setNameError] = useState<string | null>();
   const [countryError, setCountryError] = useState<string | null>();
   const router = useRouter();
@@ -22,18 +24,31 @@ const CreateTeam: React.FC = () => {
     setCountryError(null);
   };
   useEffect(() => {
-    const fetchUsers = async () => {
-        try {
-            const usersData = await UserService.getAllUsers();
-            setUsers(usersData);
-        } catch (err) {
-            setError('Could not load users. Please try again later.');
-            console.error(err);
-        }
-    };
-
-    fetchUsers();
+    const storedUser = sessionStorage.getItem('loggedInUser');
+    if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setLoggedUser(parsedUser);
+    }
+    setLoading(false);
 }, []);
+
+useEffect(() => {
+    if (loggedUser && loggedUser.email) {
+        const fetchUser = async () => {
+            try {
+                const user = await UserService.getUserByEmail(loggedUser.email);
+                console.log(user);
+                if (user && user.id) {
+                    setId(user.id); // Save the teamId
+                }
+                
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUser();
+    }
+}, [loggedUser]);
   const validate = (): boolean => {
     let result = true;
     
@@ -55,13 +70,16 @@ const CreateTeam: React.FC = () => {
     clearErrors();
 
     if (validate()) {
+      if (!Id ) {
+        throw new Error('User has nog valid id');
+      }
       const team = {
         name,
         country,
-        creatorId: 52
+        creatorId: Id
         ,
       };
-      console.log(team);
+      
       const response = await TeamService.createTeam(team);
       if (response.ok) {
         setStatus("Team successfully registered");

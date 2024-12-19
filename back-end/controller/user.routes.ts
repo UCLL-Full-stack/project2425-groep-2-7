@@ -242,4 +242,116 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 });
 
+/**
+ * @swagger
+ * /players/email/{email}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Retrieve user details by email
+ *     description: Fetches user information based on the provided email.
+ *     parameters:
+ *       - name: email
+ *         in: path  # Changed from 'query' to 'path'
+ *         description: The email address of the user to fetch details for.
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: email
+ *     responses:
+ *       200:
+ *         description: User data retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The unique ID of the user.
+ *                 username:
+ *                   type: string
+ *                   description: The username of the user.
+ *                 firstName:
+ *                   type: string
+ *                   description: The user's first name.
+ *                 lastName:
+ *                   type: string
+ *                   description: The user's last name.
+ *                 email:
+ *                   type: string
+ *                   description: The email of the user.
+ *                 teamId:
+ *                   type: integer
+ *                   description: The ID of the team the user is a part of.
+ *       400:
+ *         description: Bad request (invalid email format).
+ *       500:
+ *         description: Internal server error.
+ */
+userRouter.get('/email/:email', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const email = req.params.email 
+        const response = await userService.getUserByEmail(email);  
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /players/invite/{userId}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Retrieve all invites for a specific user by userId
+ *     description: Fetches all the invites where the `userId` matches the provided `userId`.
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         description: The ID of the user to fetch invites for.
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the invites.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Invite'
+ *       400:
+ *         description: Bad request (invalid userId format).
+ *       500:
+ *         description: Internal server error.
+ */
+userRouter.get('/invite/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        console.log(userId)
+        const invites = await inviteService.getInvites(userId);
+        res.status(200).json(invites);
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.delete('/invite/:inviteId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const inviteId = parseInt(req.params.inviteId);
+        await inviteService.deleteInvite(inviteId);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+
+
+
+
 export { userRouter };

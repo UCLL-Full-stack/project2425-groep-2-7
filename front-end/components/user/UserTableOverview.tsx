@@ -34,6 +34,7 @@ const UserTableOverview: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<string>("");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [loggedUser, setLoggedUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchPlayers = async () => {
