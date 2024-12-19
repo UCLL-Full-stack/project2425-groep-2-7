@@ -46,6 +46,18 @@ const getUserById = async (userId: number): Promise<User> => {
   }
 };
 
+const getUserByEmail = async (userEmail: string) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const token = sessionStorage.getItem("authToken");
+  return fetch(`${apiUrl}/users/${userEmail}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 const registerUser = (user: User) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   return fetch(apiUrl + "/players", {
@@ -87,6 +99,7 @@ const UserService = {
   getUserById,
   createInvite,
   loginUser,
+  getUserByEmail,
 };
 
 export default UserService;
