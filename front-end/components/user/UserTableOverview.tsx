@@ -38,8 +38,12 @@ const UserTableOverview: React.FC = () => {
       try {
         const users = await UserService.getAllUsers();
         setPlayers(users);
-      } catch (err) {
-        setError("Could not load players. Please try again later.");
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          setError("Unauthorized access. Please log in again.");
+        } else {
+          setError("Could not load players. Please try again later.");
+        }
         console.error(err);
       }
     };

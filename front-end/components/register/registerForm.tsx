@@ -2,6 +2,7 @@ import UserService from "@/services/UserService";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { Role } from "@/types";
 
 const RegisterForm: React.FC = () => {
   const [age, setAge] = useState(0);
@@ -10,7 +11,7 @@ const RegisterForm: React.FC = () => {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<string>("Admin");
+  const [role, setRole] = useState<Role>("Admin");
   const [status, setStatus] = useState<string>("");
 
   const [ageError, setAgeError] = useState<string | null>();
@@ -196,16 +197,13 @@ const RegisterForm: React.FC = () => {
             </label>
             <select
               id="role"
-              defaultValue="Admin"
+              value={role} // Use `value` instead of `defaultValue`
               className="w-full p-1 mb-1 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRole(e.target.value as Role)} // Cast to Role
             >
-              <option value="default" disabled hidden>
-                Select Role
-              </option>
               <option value="Player">Player</option>
-              <option value="Role2">Admin</option>
-              <option value="Role3">Coach</option>
+              <option value="Admin">Admin</option>
+              <option value="Coach">Coach</option>
             </select>
             {roleError && <p className="text-red-500">{roleError}</p>}
           </div>
