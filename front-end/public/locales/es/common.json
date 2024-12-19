@@ -1,0 +1,212 @@
+{
+  "app.title": "app",
+  "app": {
+    "title": "Tournamentz",
+    "generalError": "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+  },
+  "registerForm": {
+    "title": "Registro de Usuario",
+    "labels": {
+      "age": "Edad",
+      "name": "Nombre",
+      "country": "País",
+      "description": "Descripción",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "role": "Rol"
+    },
+    "errors": {
+      "age": "La edad no puede estar vacía",
+      "name": "El nombre no puede estar vacío",
+      "country": "El país no puede estar vacío",
+      "description": "La descripción no puede estar vacía",
+      "email": "El correo electrónico no puede estar vacío",
+      "emailFormat": "El correo electrónico debe tener el formato nombre@dominio.com",
+      "password": "La contraseña no puede estar vacía"
+    },
+    "status": {
+      "success": "Usuario registrado con éxito",
+      "failure": "El registro de usuario ha fallado"
+    },
+    "button": "Registrar"
+  },
+  "createTeam": {
+    "title": "Registro de Equipo",
+    "labels": {
+      "name": "Nombre",
+      "country": "País"
+    },
+    "errors": {
+      "name": "El nombre no puede estar vacío",
+      "country": "El país no puede estar vacío"
+    },
+    "status": {
+      "success": "Equipo registrado con éxito",
+      "failure": "El registro de equipo ha fallado",
+      "userFetchError": "No se pudieron cargar los usuarios. Por favor, inténtelo de nuevo más tarde."
+    },
+    "button": "Registrar"
+  },
+  "teamTableOverview": {
+    "title": "Equipos",
+    "error": {
+      "unauthorized": "Acceso no autorizado. Por favor, inicie sesión nuevamente.",
+      "loadFailure": "No se pudieron cargar los equipos. Por favor, inténtelo de nuevo más tarde."
+    },
+    "tableHeaders": {
+      "name": "Nombre",
+      "country": "País",
+      "players": "Número de Jugadores",
+      "leader": "Líder"
+    },
+    "deadTeam": "Equipo Inactivo"
+  },
+  "createTournament": {
+    "title": "Registro de Torneo",
+    "status": {
+      "success": "Torneo registrado con éxito",
+      "error": "El registro del torneo ha fallado"
+    },
+    "form": {
+      "name": {
+        "label": "Nombre",
+        "error": "El nombre no puede estar vacío"
+      },
+      "location": {
+        "label": "Ubicación",
+        "error": "La ubicación no puede estar vacía"
+      },
+      "game": {
+        "label": "Juego",
+        "error": "El juego no puede estar vacío"
+      }
+    }
+  },
+  "filter": {
+    "label": "Buscar Torneos:",
+    "placeholder": "Buscar por ubicación/juego del torneo"
+  },
+  "tournamentTableOverview": {
+    "name": "Nombre",
+    "game": "Juego",
+    "location": "Ubicación",
+    "numOfTeams": "Número de equipos",
+    "noTeams": "Sin equipos",
+    "error": "Ha ocurrido un error al obtener los torneos"
+  },
+  "userInvite": {
+    "title": "Invitar Jugador",
+    "content": "Por favor, proporcione los detalles necesarios para invitar al jugador.",
+    "close": "Cerrar",
+    "invite": "Invitar",
+    "sending": "Enviando...",
+    "success": "¡Invitación enviada con éxito!",
+    "error": "No se pudo enviar la invitación. Por favor, inténtelo de nuevo más tarde."
+  },
+  "loginOverview": {
+    "title": "Inicio de Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "login": "Iniciar sesión",
+    "emailRequired": "El correo electrónico es obligatorio",
+    "passwordRequired": "La contraseña es obligatoria",
+    "invalidCredentials": "Correo electrónico o contraseña inválidos",
+    "unexpectedError": "Ocurrió un error inesperado",
+    "loginSuccess": "Inicio de sesión exitoso"
+  },
+  "login": {
+    "title": "Inicio de Sesión",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "loginButton": "Iniciar sesión",
+    "error": {
+      "emailRequired": "El correo electrónico es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria",
+      "invalidCredentials": "Correo electrónico o contraseña inválidos",
+      "unexpectedError": "Ocurrió un error inesperado"
+    },
+    "success": {
+      "login": "Inicio de sesión exitoso."
+    }
+  },
+  "players": {
+    "header": "Jugadores",
+    "columns": {
+      "player": "Jugador",
+      "age": "Edad",
+      "country": "País",
+      "team": "Equipo",
+      "description": "Descripción",
+      "actions": "Acciones"
+    },
+    "invite": {
+      "button": "Invitar al Equipo",
+      "confirm": "¿Estás seguro de que deseas invitar a {{name}} a tu equipo?"
+    }
+  },
+  "header": {
+    "home": "Inicio",
+    "register": "Registrar",
+    "login": "Iniciar sesión",
+    "users": "Usuarios",
+    "teams": "Equipos",
+    "tournaments": "Torneos",
+    "logout": "Cerrar sesión",
+    "loggedInAs": "Conectado como"
+  },
+  "userTable": {
+    "player": "Jugador",
+    "age": "Edad",
+    "country": "País",
+    "team": "Equipo",
+    "description": "Descripción",
+    "actions": "Acciones",
+    "inviteMessage": "¿Estás seguro de que deseas invitar a {playerName} a tu equipo?"
+  },
+  "tournamentTable": {
+    "name": "Nombre",
+    "game": "Juego",
+    "location": "Ubicación",
+    "teams": "Número de equipos"
+  },
+  "teamName": {
+    "noTeam": "Sin Equipo",
+    "loading": "Cargando..."
+  },
+  "team": {
+    "teamName": "Nombre del Equipo",
+    "noTeam": "Sin Equipo",
+    "createTeam": "Crear Equipo"
+  },
+  "tournamentfilter": {
+    "searchPlaceholder": "Buscar por ubicación/juego del torneo",
+    "table": {
+      "name": "Nombre",
+      "game": "Juego",
+      "location": "Ubicación",
+      "teams": "Número de equipos"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.",
+    "close": "Cerrar",
+    "confirm": "Confirmar"
+  },
+  "home": {
+    "title": "Inicio"
+  },
+  "tournament": {
+    "title": "Torneos",
+    "createButton": "Crear Torneo",
+    "filter": {
+      "placeholder": "Filtrar por ubicación o juego"
+    },
+    "table": {
+      "name": "Nombre del Torneo",
+      "game": "Juego",
+      "location": "Ubicación",
+      "teams": "Equipos"
+    }
+  }
+}

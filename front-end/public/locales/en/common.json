@@ -1,0 +1,212 @@
+{
+  "app.title": "application",
+  "app": {
+    "title": "Tournamentz",
+    "generalError": "An error has occurred. Please try again later."
+  },
+  "registerForm": {
+    "title": "User Registration",
+    "labels": {
+      "age": "Age",
+      "name": "Name",
+      "country": "Country",
+      "description": "Description",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role"
+    },
+    "errors": {
+      "age": "Age cannot be empty",
+      "name": "Name cannot be empty",
+      "country": "Country cannot be empty",
+      "description": "Description cannot be empty",
+      "email": "Email cannot be empty",
+      "emailFormat": "Email must be in the format name@email.com",
+      "password": "Password cannot be empty"
+    },
+    "status": {
+      "success": "User successfully registered",
+      "failure": "User registration failed"
+    },
+    "button": "Register"
+  },
+  "createTeam": {
+    "title": "Team Registration",
+    "labels": {
+      "name": "Name",
+      "country": "Country"
+    },
+    "errors": {
+      "name": "Name cannot be empty",
+      "country": "Country cannot be empty"
+    },
+    "status": {
+      "success": "Team successfully registered",
+      "failure": "Team registration failed",
+      "userFetchError": "Could not load users. Please try again later."
+    },
+    "button": "Register"
+  },
+  "teamTableOverview": {
+    "title": "Teams",
+    "error": {
+      "unauthorized": "Unauthorized access. Please log in again.",
+      "loadFailure": "Could not load teams. Please try again later."
+    },
+    "tableHeaders": {
+      "name": "Name",
+      "country": "Country",
+      "players": "Number of Players",
+      "leader": "Leader"
+    },
+    "deadTeam": "Dead Team"
+  },
+  "createTournament": {
+    "title": "Tournament Registration",
+    "status": {
+      "success": "Tournament successfully registered",
+      "error": "Tournament registration failed"
+    },
+    "form": {
+      "name": {
+        "label": "Name",
+        "error": "Name cannot be empty"
+      },
+      "location": {
+        "label": "Location",
+        "error": "Location cannot be empty"
+      },
+      "game": {
+        "label": "Game",
+        "error": "Game cannot be empty"
+      }
+    }
+  },
+  "filter": {
+    "label": "Search Tournaments:",
+    "placeholder": "Search by tournament location/game"
+  },
+  "tournamentTableOverview": {
+    "name": "Name",
+    "game": "Game",
+    "location": "Location",
+    "numOfTeams": "Number of teams",
+    "noTeams": "No teams",
+    "error": "An error occurred while fetching the tournaments"
+  },
+  "userInvite": {
+    "title": "Player Invite",
+    "content": "Please provide the necessary details to invite the player.",
+    "close": "Close",
+    "invite": "Invite",
+    "sending": "Sending...",
+    "success": "Invite sent successfully!",
+    "error": "Failed to send the invite. Please try again later."
+  },
+  "loginOverview": {
+    "title": "User Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "invalidCredentials": "Invalid email or password",
+    "unexpectedError": "An unexpected error occurred",
+    "loginSuccess": "Login successful"
+  },
+  "login": {
+    "title": "User Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "error": {
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "invalidCredentials": "Invalid email or password",
+      "unexpectedError": "An unexpected error occurred"
+    },
+    "success": {
+      "login": "Login successful."
+    }
+  },
+  "players": {
+    "header": "Players",
+    "columns": {
+      "player": "Player",
+      "age": "Age",
+      "country": "Country",
+      "team": "Team",
+      "description": "Description",
+      "actions": "Actions"
+    },
+    "invite": {
+      "button": "Invite to Team",
+      "confirm": "Are you sure you want to invite {{name}} to your team?"
+    }
+  },
+  "header": {
+    "home": "Home",
+    "register": "Register",
+    "login": "Login",
+    "users": "Users",
+    "teams": "Teams",
+    "tournaments": "Tournaments",
+    "logout": "Logout",
+    "loggedInAs": "Logged in as"
+  },
+  "userTable": {
+    "player": "Player",
+    "age": "Age",
+    "country": "Country",
+    "team": "Team",
+    "description": "Description",
+    "actions": "Actions",
+    "inviteMessage": "Are you sure you want to invite {playerName} to your team?"
+  },
+  "tournamentTable": {
+    "name": "Name",
+    "game": "Game",
+    "location": "Location",
+    "teams": "Number of teams"
+  },
+  "teamName": {
+    "noTeam": "No Team",
+    "loading": "Loading..."
+  },
+  "team": {
+    "teamName": "Team Name",
+    "noTeam": "No Team",
+    "createTeam": "Create Team"
+  },
+  "tournamentfilter": {
+    "searchPlaceholder": "Search by tournament location/game",
+    "table": {
+      "name": "Name",
+      "game": "Game",
+      "location": "Location",
+      "teams": "Number of teams"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again later.",
+    "close": "Close",
+    "confirm": "Confirm"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "tournament": {
+    "title": "Tournaments",
+    "createButton": "Create Tournament",
+    "filter": {
+      "placeholder": "Filter by location or game"
+    },
+    "table": {
+      "name": "Tournament Name",
+      "game": "Game",
+      "location": "Location",
+      "teams": "Teams"
+    }
+  }
+}
