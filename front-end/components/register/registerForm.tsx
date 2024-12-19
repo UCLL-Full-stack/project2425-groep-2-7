@@ -103,7 +103,7 @@ const RegisterForm: React.FC = () => {
           {status && (
             <div
               className={`mb-4 ${
-                status.includes('error') ? 'text-red-500' : 'text-green-500'
+                status.includes("error") ? "text-red-500" : "text-green-500"
               }`}
             >
               {status}

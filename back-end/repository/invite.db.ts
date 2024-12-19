@@ -1,14 +1,11 @@
-import { Invite } from "../model/invite";
-import { Team } from "../model/team";
-import { User} from "../model/user";
-import { PrismaClient } from "@prisma/client";
+import { Invite } from '../model/invite';
+import { Team } from '../model/team';
+import { User } from '../model/user';
+import { PrismaClient } from '@prisma/client';
 
 const database = new PrismaClient();
 
-const createInvite = async (inviteData: {
-    teamId: number;
-    userId: number;
-}): Promise<Invite> => {
+const createInvite = async (inviteData: { teamId: number; userId: number }): Promise<Invite> => {
     try {
         const { teamId, userId } = inviteData;
         // Persist the invite to the database
@@ -20,10 +17,9 @@ const createInvite = async (inviteData: {
         });
         return Invite.from(createdInvite);
     } catch (error) {
-        console.error("Error creating Invite", error);
+        console.error('Error creating Invite', error);
         throw error;
     }
 };
 
-export default { createInvite};
-
+export default { createInvite };

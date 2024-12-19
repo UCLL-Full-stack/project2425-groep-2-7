@@ -1,6 +1,6 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
-import { AuthenticationResponse, UserInput } from '../types';
+import { AuthenticationResponse, Role, UserInput } from '../types';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 import { error } from 'console';
@@ -63,7 +63,7 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
         throw new Error('incorrect password.');
     }
     return {
-        token: generateJwtToken({ email }),
+        token: generateJwtToken({ email, role: user.getRole() as Role }),
         email,
     };
 };
