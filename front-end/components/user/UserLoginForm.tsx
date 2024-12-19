@@ -5,7 +5,7 @@ import UserService from "@/services/UserService";
 const LoginOverview = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<{ message: string; type: string }[]>([]); // Change type here
 
   const [emailError, setEmailError] = useState<string | null>();
   const [passwordError, setPasswordError] = useState<string | null>();
@@ -31,7 +31,9 @@ const LoginOverview = () => {
 
       if (!response.ok) {
         setEmailError("Invalid email or password");
+        setStatus([{ message: "Invalid email or password", type: "error" }]);
       } else {
+        setStatus([{ message: "Login successful.", type: "success" }]);
         const data = await response.json();
         sessionStorage.setItem(
           "loggedInUser",
@@ -40,11 +42,13 @@ const LoginOverview = () => {
             email: data.email,
           })
         );
-
-        router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 500);
       }
     } catch (error) {
       setEmailError("An unexpected error occurred");
+      setStatus([{ message: "An unexpected error occurred", type: "error" }]);
     }
   };
 
@@ -59,13 +63,13 @@ const LoginOverview = () => {
             User login
           </h1>
 
-          {status && (
+          {status.length > 0 && (
             <div
               className={`mb-4 ${
-                status.includes("error") ? "text-red-500" : "text-green-500"
+                status[0].type === "error" ? "text-red-500" : "text-green-500"
               }`}
             >
-              {status}
+              {status[0].message} {/* Display status message */}
             </div>
           )}
 
