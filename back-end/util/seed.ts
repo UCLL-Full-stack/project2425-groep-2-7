@@ -11,7 +11,7 @@ const main = async () => {
     await prisma.user.deleteMany();
 
 
-    const user1hashedpassword = await bcrypt.hash("user1", 12)
+    const user1hashedpassword = await bcrypt.hash("tester1", 12)
     const user1 = await prisma.user.create({
         data: {
             age: 25,
@@ -24,7 +24,7 @@ const main = async () => {
         }
         
     });
-    const user2hashedpassword = await bcrypt.hash("user2", 12);
+    const user2hashedpassword = await bcrypt.hash("tester2", 12);
     const user2 = await prisma.user.create({
         data: {
             age: 30,
@@ -37,7 +37,7 @@ const main = async () => {
         }
     });
 
-    const user3hashedpassword = await bcrypt.hash("user3", 12 )
+    const user3hashedpassword = await bcrypt.hash("tester3", 12 )
     const user3 = await prisma.user.create({
         data: {
             age: 47,
@@ -49,7 +49,7 @@ const main = async () => {
             password: user3hashedpassword,
         }
     });
-    const user4hashedpassword = await bcrypt.hash("user4", 12 )
+    const user4hashedpassword = await bcrypt.hash("tester4", 12 )
     const user4 = await prisma.user.create({
         data: {
             age: 18,
