@@ -1,7 +1,6 @@
 {
-  "app.title": "app",
   "app": {
-    "title": "Tournamentz",
+    "title": "Torneoz",
     "generalError": "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
   },
   "registerForm": {

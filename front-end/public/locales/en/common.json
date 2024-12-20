@@ -1,8 +1,7 @@
 {
-  "app.title": "application",
   "app": {
-    "title": "Tournamentz",
-    "generalError": "An error has occurred. Please try again later."
+    "generalError": "An error has occurred. Please try again later.",
+    "title": "Tournamentz"
   },
   "registerForm": {
     "title": "User Registration",

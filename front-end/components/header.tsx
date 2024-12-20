@@ -73,6 +73,21 @@ const Header: React.FC = () => {
           </>
         ) : (
           <>
+            <div className="ml-6">
+              <label htmlFor="language" className="text-white">
+                language
+              </label>
+              <select
+                name=""
+                id="language"
+                className="ml-2 p-1"
+                value={locale}
+                onChange={handleLanguageChange}
+              >
+                <option value="en">English</option>
+                <option value="es">spanish</option>
+              </select>
+            </div>
             <Link
               href="/"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
