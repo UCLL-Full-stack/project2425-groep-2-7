@@ -44,7 +44,7 @@ const LoginOverview = () => {
         );
         setTimeout(() => {
           router.push("/");
-        }, 500);
+        }, 2000);
       }
     } catch (error) {
       setEmailError("An unexpected error occurred");
