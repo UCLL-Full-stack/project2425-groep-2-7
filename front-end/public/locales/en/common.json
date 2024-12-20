@@ -136,11 +136,13 @@
       "country": "Country",
       "team": "Team",
       "description": "Description",
-      "actions": "Actions"
+      "actions": "Actions",
+      "role": "Role"
     },
     "invite": {
       "button": "Invite to Team",
-      "confirm": "Are you sure you want to invite {{name}} to your team?"
+      "confirm": "Are you sure you want to invite {{name}} to your team?",
+      "noTeam": "You don't have a Team"
     }
   },
   "header": {

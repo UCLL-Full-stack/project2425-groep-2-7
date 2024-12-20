@@ -4,6 +4,8 @@ import TournamentTableOverview from "@/components/tournament/TournamentTableOver
 import Filter from "@/components/tournament/TournamentFilters";
 import TournamentService from "@/services/TournamentService";
 import Link from "next/link";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 const TournamentOverview: React.FC = () => {
   const [filter, setFilter] = useState(""); // Store the filter text
 
@@ -31,31 +33,28 @@ const TournamentOverview: React.FC = () => {
       </header>
       <main className="bg-gray-800 min-h-screen">
         <>
+          <div className="flex items-center space-x-4">
+            <button className="px-9 py-2 ml-20 text-xl text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition-colors duration-300">
+              <Link href="/tournaments/register" className="w-full h-full">
+                Create team
+              </Link>
+            </button>
 
-        <div className="flex items-center space-x-4">
-  <button className="px-9 py-2 ml-20 text-xl text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition-colors duration-300">
-    <Link href="/tournaments/register" className="w-full h-full">
-      Create team
-    </Link>
-  </button>
+            {error && <div className="text-red-800">{error.message}</div>}
+            {isLoading && <p>loading...</p>}
 
-  {error && <div className="text-red-800">{error.message}</div>}
-  {isLoading && <p>loading...</p>}
+            <div className="w-full px-4 py-2">
+              <Filter
+                onFilterChange={(filterValue) => setFilter(filterValue)}
+              />
+            </div>
+          </div>
 
-  <div className="w-full px-4 py-2">
-    <Filter
-    
-      onFilterChange={(filterValue) => setFilter(filterValue)}
-      
-    />
-  </div>
-</div>
-
-{data && (
-  <TournamentTableOverview
-    tournaments={filteredTournaments || []} // Pass filtered tournaments
-  />
-)}       
+          {data && (
+            <TournamentTableOverview
+              tournaments={filteredTournaments || []} // Pass filtered tournaments
+            />
+          )}
         </>
       </main>
     </>
@@ -63,3 +62,14 @@ const TournamentOverview: React.FC = () => {
 };
 
 export default TournamentOverview;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
+};

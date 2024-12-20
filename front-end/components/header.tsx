@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { User } from "@/types";
-import { log } from "console";
-import Router from "next/router";
 import { useRouter } from "next/router";
+import { useTranslation, UseTranslation } from "next-i18next";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -29,7 +28,7 @@ const Header: React.FC = () => {
     sessionStorage.removeItem("loggedInUser");
     setLoggedUser(null);
   };
-
+  const { t } = useTranslation();
   return (
     <header className="p-5 bg-emerald-900 flex flex-col items-center">
       <nav className="flex flex-col md:flex-row md:space-x-14 space-y-2 md:space-y-0">
@@ -54,21 +53,21 @@ const Header: React.FC = () => {
               href="/"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Home
+              {t("header.home")}
             </Link>
 
             <Link
               href="/register"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Register
+              {t("header.register")}
             </Link>
 
             <Link
               href="/users/login"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Login
+              {t("header.login")}
             </Link>
           </>
         ) : (
@@ -92,28 +91,28 @@ const Header: React.FC = () => {
               href="/"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Home
+              {t("header.home")}
             </Link>
 
             <Link
               href="/users"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Users
+              {t("header.users")}
             </Link>
 
             <Link
               href="/teams"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Teams
+              {t("header.teams")}
             </Link>
 
             <Link
               href="/tournaments"
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Tournaments
+              {t("header.tournaments")}
             </Link>
 
             <Link
@@ -129,7 +128,7 @@ const Header: React.FC = () => {
               onClick={handleLogout}
               className="px-7 py-2 text-xl text-white hover:bg-gray-700 rounded-lg transition-colors duration-300"
             >
-              Logout
+              {t("header.logout")}
             </button>
           </>
         )}

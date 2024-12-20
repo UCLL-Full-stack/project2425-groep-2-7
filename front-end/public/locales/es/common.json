@@ -136,11 +136,13 @@
       "country": "País",
       "team": "Equipo",
       "description": "Descripción",
-      "actions": "Acciones"
+      "actions": "Acciones",
+      "role": "Rol"
     },
     "invite": {
       "button": "Invitar al Equipo",
-      "confirm": "¿Estás seguro de que deseas invitar a {{name}} a tu equipo?"
+      "confirm": "¿Estás seguro de que deseas invitar a {{name}} a tu equipo?",
+      "noTeam": "No tienes un equipo"
     }
   },
   "header": {

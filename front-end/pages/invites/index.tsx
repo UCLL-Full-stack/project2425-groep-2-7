@@ -1,4 +1,6 @@
 import InviteTableOverview from "@/components/invite/InviteTableOverview";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 const Invites: React.FC = () => {
   return (
@@ -13,3 +15,14 @@ const Invites: React.FC = () => {
 };
 
 export default Invites;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { locale } = context;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+    },
+  };
+};
