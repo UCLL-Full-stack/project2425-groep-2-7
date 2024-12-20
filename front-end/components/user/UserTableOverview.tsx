@@ -111,6 +111,8 @@ useEffect(() => {
                   <th className="px-4 py-2 text-left">Team</th>
                   <th className="px-4 py-2 text-left">Description</th>
                   <th className="px-4 py-2 text-left">Actions</th>
+                  <th className="px-4 py-2 text-left">Role</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -146,6 +148,8 @@ useEffect(() => {
                       <div className="text-gray-400 italic">You don't have a Team</div> // Optionally display a placeholder
         )}
                     </td>
+                    <td className="px-4 py-2">{player.role}</td>
+
                   </tr>
                 ))}
               </tbody>

@@ -12,49 +12,49 @@ const main = async () => {
 
     const user1 = await prisma.user.create({
         data: {
-            age: 21,
-            name: "Daan Schoenaers",
+            age: 25,
+            name: "Tester1",
             country: "Belgium",
             description: "Student",
-            email: "daan.schoenaers@gmail.com",
+            email: "tester1@mail.com",
             role: "Player",
-            password: "password123",            
+            password: "tester1",            
         }
         
     });
     const user2 = await prisma.user.create({
         data: {
-            age: 21,
-            name: "Florian Lebrun",
-            country: "Belgium",
-            description: "Student",
-            email: "florian.lebrun@gmail.com",
-            role: "Player",
-            password: "password123",            
+            age: 30,
+            name: "Tester2",
+            country: "France",
+            description: "Coaching",
+            email: "tester2@mail.com",
+            role: "Coach",
+            password: "tester2",            
         }
     });
 
     const user3 = await prisma.user.create({
         data: {
-            age: 21,
-            name: "Maxim Delloye",
+            age: 47,
+            name: "Tester3",
             country:"Italy",
-            description: "Student",
-            email: "maxim.delloye@gmail.com",
+            description: "Just enjoying life",
+            email: "tester3@mail.com",
             role: "Player",
-            password: "password123",
+            password: "tester3",
         }
     });
 
     const user4 = await prisma.user.create({
         data: {
-            age: 21,
-            name: "Natan Delloye",
-            country: "Italy",
+            age: 18,
+            name: "tester4",
+            country: "Netherlands",
             description: "Student",
-            email: "natan.delloye@gmail.com",
+            email: "tester4@mail.com",
             role: "Player",
-            password: "password123",
+            password: "tester4",
         }
     });
 
@@ -63,7 +63,7 @@ const main = async () => {
             name: 'ProPlayers',
             country: 'Belgium',
             players: {
-                connect: [{ id: user1.id }, { id: user2.id }],
+                connect: [{ id: user2.id }],
             },
         },
     });
