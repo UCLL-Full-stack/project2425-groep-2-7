@@ -3,6 +3,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Role } from "@/types";
+import { useTranslation, UseTranslation } from "next-i18next";
 
 const RegisterForm: React.FC = () => {
   const [age, setAge] = useState(0);
@@ -89,7 +90,7 @@ const RegisterForm: React.FC = () => {
       }
     }
   };
-
+  const { t } = useTranslation();
   return (
     <>
       <main className="flex items-center justify-center pt-12 min-h-screen bg-gray-800">
@@ -98,7 +99,7 @@ const RegisterForm: React.FC = () => {
           onSubmit={handleSubmit}
         >
           <h1 className="text-3xl font-bold text-center text-white mb-6">
-            User Registration
+            {t("registerForm.title")}
           </h1>
 
           {status && (
@@ -113,7 +114,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="age" className="block mb-1">
-              Age
+              {t("registerForm.labels.age")}
             </label>
             <input
               type="number"
@@ -126,7 +127,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="name" className="block mb-1">
-              Name
+              {t("registerForm.labels.name")}
             </label>
             <input
               type="text"
@@ -139,7 +140,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="country" className="block mb-1">
-              Country
+              {t("registerForm.labels.country")}
             </label>
             <input
               type="text"
@@ -152,7 +153,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="description" className="block mb-1">
-              Description
+              {t("registerForm.labels.description")}
             </label>
             <input
               type="text"
@@ -167,7 +168,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="block mb-1">
-              Email
+              {t("registerForm.labels.email")}
             </label>
             <input
               type="email"
@@ -180,7 +181,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="password" className="block mb-1">
-              Password
+              {t("registerForm.labels.password")}
             </label>
             <input
               type="password"
@@ -193,7 +194,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="mb-4">
             <label htmlFor="role" className="block mb-1">
-              Role
+              {t("registerForm.labels.role")}
             </label>
             <select
               id="role"

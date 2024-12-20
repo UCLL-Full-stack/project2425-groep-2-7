@@ -38,6 +38,7 @@ type InviteInput = {
 type AuthenticationResponse = {
     token: string;
     email: string;
+    role?: Role;
 };
 
 export {

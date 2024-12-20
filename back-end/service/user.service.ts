@@ -64,6 +64,7 @@ const authenticate = async ({ email, password }: UserInput): Promise<Authenticat
     return {
         token: generateJwtToken({ email, role: user.getRole() as Role }),
         email,
+        role: user.getRole() as Role,
     };
 };
 
