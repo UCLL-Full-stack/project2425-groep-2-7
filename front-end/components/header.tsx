@@ -17,11 +17,10 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("loggedInUser");
-
     if (storedUser) {
       setLoggedUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     console.log("Logging out...");

@@ -12,7 +12,7 @@ const player1 = new User({
     password: 'Hallo',
     role: 'Admin',
 });
-const team1 = new Team({ name: 'pro players', country: 'Belgium', players: [player1] });
+const team1 = new Team({ name: 'pro players', country: 'Belgium', user: [player1] });
 
 test('given: valid values for tournament, when: tournament is created, then: tournament is created with those values', () => {
     //given
