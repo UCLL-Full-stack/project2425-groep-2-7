@@ -4,7 +4,7 @@ import { Team } from '../../model/team';
 import { Tournament } from '../../model/tournament';
 
 test('given: valid values for team, when: team is created, then: team is created with those values', () => {
-    //given
+    // Given
     const name = 'Daan Schoenaers';
     const country = 'Belgium';
     const player1 = new User({
@@ -16,10 +16,15 @@ test('given: valid values for team, when: team is created, then: team is created
         password: 'Hallo',
         role: 'Admin',
     });
-    //when
-    const team = new Team({ name, country, players: [player1]});
 
-    //then
+    // When
+    const team = new Team({
+        name,
+        country,
+        players: [{ user: player1 }], // Ensure this matches the expected structure
+    });
+
+    // Then
     expect(team.getName()).toEqual(name);
     expect(team.getCountry()).toEqual(country);
 });
