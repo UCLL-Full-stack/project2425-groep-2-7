@@ -20,29 +20,29 @@ const Home = () => {
       <table className="w-full bg-gray-800 text-white rounded-lg shadow-lg border border-gray-700">
         <thead className="bg-gray-700">
           <tr>
-            <th className="px-4 py-2 text-left">Username</th>
+            <th className="px-4 py-2 text-left">Email</th>
             <th className="px-4 py-2 text-left">Password</th>
             <th className="px-4 py-2 text-left">Role</th>
           </tr>
         </thead>
         <tbody>
           <tr className="bg-gray-800 hover:bg-gray-600">
-            <td className="px-4 py-2">Tester1</td>
+            <td className="px-4 py-2">tester1@mail.com</td>
             <td className="px-4 py-2">tester1</td>
             <td className="px-4 py-2">Player</td>
           </tr>
           <tr className="bg-gray-700 hover:bg-gray-600">
-            <td className="px-4 py-2">Tester2</td>
+            <td className="px-4 py-2">tester2@mail.com</td>
             <td className="px-4 py-2">tester2</td>
             <td className="px-4 py-2">Coach</td>
           </tr>
           <tr className="bg-gray-800 hover:bg-gray-600">
-            <td className="px-4 py-2">Tester3</td>
+            <td className="px-4 py-2">tester3@mail.com</td>
             <td className="px-4 py-2">tester3</td>
             <td className="px-4 py-2">Player</td>
           </tr>
           <tr className="bg-gray-700 hover:bg-gray-600">
-            <td className="px-4 py-2">Tester4</td>
+            <td className="px-4 py-2">tester4@mail.com</td>
             <td className="px-4 py-2">tester4</td>
             <td className="px-4 py-2">Player</td>
           </tr>

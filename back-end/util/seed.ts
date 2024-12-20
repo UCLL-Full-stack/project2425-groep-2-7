@@ -10,6 +10,8 @@ const main = async () => {
     await prisma.tournament.deleteMany();
     await prisma.user.deleteMany();
 
+
+    const user1hashedpassword = await bcrypt.hash("user1", 12)
     const user1 = await prisma.user.create({
         data: {
             age: 25,
@@ -18,10 +20,11 @@ const main = async () => {
             description: "Student",
             email: "tester1@mail.com",
             role: "Player",
-            password: "tester1",            
+            password: user1hashedpassword,            
         }
         
     });
+    const user2hashedpassword = await bcrypt.hash("user2", 12);
     const user2 = await prisma.user.create({
         data: {
             age: 30,
@@ -30,10 +33,11 @@ const main = async () => {
             description: "Coaching",
             email: "tester2@mail.com",
             role: "Coach",
-            password: "tester2",            
+            password: user2hashedpassword,            
         }
     });
 
+    const user3hashedpassword = await bcrypt.hash("user3", 12 )
     const user3 = await prisma.user.create({
         data: {
             age: 47,
@@ -42,10 +46,10 @@ const main = async () => {
             description: "Just enjoying life",
             email: "tester3@mail.com",
             role: "Player",
-            password: "tester3",
+            password: user3hashedpassword,
         }
     });
-
+    const user4hashedpassword = await bcrypt.hash("user4", 12 )
     const user4 = await prisma.user.create({
         data: {
             age: 18,
@@ -54,7 +58,7 @@ const main = async () => {
             description: "Student",
             email: "tester4@mail.com",
             role: "Player",
-            password: "tester4",
+            password: user4hashedpassword,
         }
     });
 
