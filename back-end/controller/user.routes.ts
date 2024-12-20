@@ -291,8 +291,8 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  */
 userRouter.get('/email/:email', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const email = req.params.email 
-        const response = await userService.getUserByEmail(email);  
+        const email = req.params.email;
+        const response = await userService.getUserByEmail({ email: email });
         res.status(200).json(response);
     } catch (error) {
         next(error);
@@ -331,7 +331,7 @@ userRouter.get('/email/:email', async (req: Request, res: Response, next: NextFu
 userRouter.get('/invite/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.userId);
-        console.log(userId)
+        console.log(userId);
         const invites = await inviteService.getInvites(userId);
         res.status(200).json(invites);
     } catch (error) {
@@ -348,10 +348,5 @@ userRouter.delete('/invite/:inviteId', async (req: Request, res: Response, next:
         next(error);
     }
 });
-
-
-
-
-
 
 export { userRouter };

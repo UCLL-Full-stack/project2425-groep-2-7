@@ -13,10 +13,11 @@ test('given: valid values for team, when: team is created, then: team is created
         country: 'Belgium',
         description: 'Student',
         email: 'daan.schoenaers@gmail.com',
+        password: 'Hallo',
         role: 'Admin',
     });
     //when
-    const team = new Team({ name, country, players: [player1] });
+    const team = new Team({ name, country, players: [player1]});
 
     //then
     expect(team.getName()).toEqual(name);

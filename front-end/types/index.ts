@@ -1,9 +1,7 @@
-
-
 export type Role = "Player" | "Admin" | "Coach";
 
 export type User = {
-  id: number;
+  id?: number;
   age: number;
   name: string;
   country: string;
@@ -18,7 +16,7 @@ export type Team = {
   name: string;
   country: string;
   players: {
-    user: User
+    user: User;
   }[];
 };
 
@@ -27,7 +25,7 @@ export type Tournament = {
   location: string;
   game: string;
   teams?: {
-    team : Team;
+    team: Team;
   }[];
 };
 
@@ -35,4 +33,4 @@ export type Invite = {
   id: number;
   teamId: number;
   userId: number;
-}
+};

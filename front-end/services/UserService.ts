@@ -47,7 +47,6 @@ const getUserById = async (userId: number): Promise<User> => {
   }
 };
 
-
 const getInvites = async (userId: number) => {
   const loggedInUser = sessionStorage.getItem("loggedInUser");
   const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
@@ -68,38 +67,34 @@ const getInvites = async (userId: number) => {
   }
 };
 
-const getUserByEmail = async (email: string): Promise<User>  => {
-    const loggedInUser = sessionStorage.getItem("loggedInUser");
-    const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    console.log(email)
-    try {
-      const response = await fetch(`${apiUrl}/players/email/${email}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response)
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const user: User = await response.json();
-      return user;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw error;
+const getUserByEmail = async (email: string): Promise<User> => {
+  const loggedInUser = sessionStorage.getItem("loggedInUser");
+  const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log(email);
+  try {
+    const response = await fetch(`${apiUrl}/players/email/${email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  };
-
-
-
-
+    const user: User = await response.json();
+    return user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
 
 const registerUser = (user: User) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  return fetch(apiUrl + "/players", {
+  return fetch(apiUrl + "/players/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -128,20 +123,18 @@ const deleteInvite = async (inviteId: number): Promise<void> => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const response = await fetch(`${apiUrl}/players/invite/${inviteId}`, {
-      method: "DELETE",
-      headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-      },
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Failed to delete invite: ${errorMessage}`);
+    const errorMessage = await response.text();
+    throw new Error(`Failed to delete invite: ${errorMessage}`);
   }
 };
-
-
 
 const loginUser = (loginData: { email: string; password: string }) => {
   return fetch(process.env.NEXT_PUBLIC_API_URL + "/players/login", {
@@ -153,7 +146,6 @@ const loginUser = (loginData: { email: string; password: string }) => {
   });
 };
 
-
 const UserService = {
   getAllUsers,
   registerUser,
@@ -162,7 +154,7 @@ const UserService = {
   loginUser,
   getUserByEmail,
   getInvites,
-  deleteInvite
+  deleteInvite,
 };
 
 export default UserService;
