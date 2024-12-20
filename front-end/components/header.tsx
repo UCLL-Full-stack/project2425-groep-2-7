@@ -29,8 +29,8 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="p-5 bg-emerald-900">
-      <nav className="flex flex-col md:flex-row items-center md:space-x-14 space-y-2 md:space-y-0">
+    <header className="p-5 bg-emerald-900 w-full">
+      <nav className="flex flex-col md:flex-row items-center justify-center md:space-x-14 space-y-2 md:space-y-0 w-full">
         <div className="ml-6 flex items-center">
           <label htmlFor="language" className="text-white mr-2">
             Language
