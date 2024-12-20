@@ -1,7 +1,6 @@
 export type Role = "Player" | "Admin" | "Coach";
 
-export type User = {
-  id?: number;
+export type NewUser = {
   age: number;
   name: string;
   country: string;
@@ -10,6 +9,10 @@ export type User = {
   password: string;
   teamId?: number;
   role?: Role;
+};
+
+export type User = NewUser & {
+  id: number; // `id` is now required for fetched users
 };
 
 export type Team = {
@@ -28,9 +31,12 @@ export type Tournament = {
     team: Team;
   }[];
 };
-
 export type Invite = {
-  id: number;
+  id : number;
+  teamId: number;
+  userId: number;
+}
+export type NewInvite = {
   teamId: number;
   userId: number;
 };

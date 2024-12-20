@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserService from '@/services/UserService';
-import { User } from '../../types';
+import { User, Invite, NewInvite } from '../../types';
 
 interface ModalProps {
     isOpen: boolean;

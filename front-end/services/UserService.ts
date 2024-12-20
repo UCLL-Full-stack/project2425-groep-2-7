@@ -1,5 +1,4 @@
-import { User } from "@/types";
-import { Invite } from "@/types";
+import { Invite, NewInvite, NewUser, User } from "@/types";
 
 const getAllUsers = async (): Promise<User[]> => {
   const loggedInUser = sessionStorage.getItem("loggedInUser");
@@ -92,7 +91,7 @@ const getUserByEmail = async (email: string): Promise<User> => {
   }
 };
 
-const registerUser = (user: User) => {
+const registerUser = (user: NewUser) => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   return fetch(apiUrl + "/players/register", {
     method: "POST",
@@ -103,7 +102,7 @@ const registerUser = (user: User) => {
   });
 };
 
-const createInvite = (invite: Invite) => {
+const createInvite = (invite: NewInvite) => {
   const loggedInUser = sessionStorage.getItem("loggedInUser");
   const token = loggedInUser ? JSON.parse(loggedInUser).token : null;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;

@@ -35,6 +35,7 @@ const UserTableOverview: React.FC = () => {
   const [modalContent, setModalContent] = useState<string>("");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
+  const [loggedTeamId, setLoggedTeamId] = useState<number | null>(null); 
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -53,7 +54,31 @@ const UserTableOverview: React.FC = () => {
 
     fetchPlayers();
   }, []);
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('loggedInUser');
+    if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setLoggedUser(parsedUser);
+    }
+}, []);
 
+// Fetch user data by email and extract teamId
+useEffect(() => {
+    if (loggedUser && loggedUser.email) {
+        const fetchUser = async () => {
+            try {
+                const user = await UserService.getUserByEmail(loggedUser.email);
+                console.log(user);
+                if (user && user.teamId) {
+                    setLoggedTeamId(user.teamId); // Save the teamId
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchUser();
+    }
+}, [loggedUser]);
   const handleOpenModal = (content: string, userId: number) => {
     setModalContent(content);
     setSelectedUserId(userId); 
@@ -105,17 +130,21 @@ const UserTableOverview: React.FC = () => {
                     </td>
                     <td className="px-4 py-2">{player.description}</td>
                     <td className="px-4 py-2">
+                    {loggedTeamId ? (
                       <button
-                        onClick={() =>
-                          handleOpenModal(
-                            `Are you sure you want to invite ${player.name} to your team? `,
-                            player.id
-                          )
-                        }
-                        className="bg-blue-500 text-white py-1 px-3 rounded"
-                      >
+                       onClick={() =>
+                        handleOpenModal(
+                        `Are you sure you want to invite ${player.name} to your team? `,
+                        player.id
+                      )
+                    }
+                    className="bg-blue-500 text-white py-1 px-3 rounded"
+                   >
                         Invite to Team
                       </button>
+                    ) : (
+                      <div className="text-gray-400 italic">You don't have a Team</div> // Optionally display a placeholder
+        )}
                     </td>
                   </tr>
                 ))}
