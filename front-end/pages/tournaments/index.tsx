@@ -36,7 +36,7 @@ const TournamentOverview: React.FC = () => {
           <div className="flex items-center space-x-4">
             <button className="px-9 py-2 ml-20 text-xl text-white bg-blue-500 hover:bg-blue-700 rounded-lg transition-colors duration-300">
               <Link href="/tournaments/register" className="w-full h-full">
-                Create team
+                Create tournament
               </Link>
             </button>
 
