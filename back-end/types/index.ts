@@ -1,3 +1,5 @@
+import { JwtPayload } from 'jsonwebtoken';
+
 type Role = 'Player' | 'Admin' | 'Coach';
 
 type UserInput = {
@@ -50,3 +52,12 @@ export {
     InviteInput,
     AuthenticationResponse,
 };
+
+declare module 'express' {
+    interface Request {
+        auth?: JwtPayload & {
+            email?: string;
+            role?: string;
+        };
+    }
+}

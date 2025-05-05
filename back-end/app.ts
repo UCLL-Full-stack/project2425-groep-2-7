@@ -8,6 +8,7 @@ import { userRouter } from './controller/user.routes';
 import { teamRouter } from './controller/team.routes';
 import { tournamentRouter } from './controller/tournament.routes';
 import { expressjwt, UnauthorizedError } from 'express-jwt';
+import { validateIat } from './util/validateIat';
 
 dotenv.config();
 
@@ -22,7 +23,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
+
+
 
 // Swagger setup
 const swaggerOpts = {
@@ -54,6 +57,24 @@ app.use(
         ],
     })
 );
+
+app.use((req, res, next) => {
+    const publicPaths = [
+        '/players/login',
+        '/players/register',
+        '/status',
+        '/api-docs'
+    ];
+
+    const isPublic = publicPaths.some(path => req.path.startsWith(path));
+
+    if (isPublic) {
+        return next();
+    }
+
+    return validateIat()(req, res, next);
+});
+
 
 // Routes
 app.use('/players', userRouter);
