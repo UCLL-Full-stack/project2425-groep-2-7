@@ -33,14 +33,14 @@ export class User {
         role?: Role | undefined;
         teamId?: number | null;
     }) {
-        this.validate({ age, name, email, password });
+        this.validate({ age, name, email });
         this.id = id;
         this.age = age;
         this.name = name;
         this.country = country;
         this.description = description;
-        this.email = email;
         this.password = password;
+        this.email = email;
         this.role = role;
         this.teamId = teamId;
     }
@@ -69,21 +69,19 @@ export class User {
         });
     }
 
+
     validate({
         age,
         name,
         email,
-        password,
     }: {
         age: number;
         name: string;
         email: string;
-        password: string;
     }) {
         if (!age) throw new Error('Age is required');
         if (!name?.trim()) throw new Error('Name is required');
         if (!email?.trim()) throw new Error('Email is required');
-        if (!password?.trim()) throw new Error('Password is required');
     }
 
     toPlainObject(): {

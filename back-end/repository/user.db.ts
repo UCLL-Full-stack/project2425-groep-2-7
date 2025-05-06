@@ -25,13 +25,13 @@ const getAllPlayers = async (): Promise<User[]> => {
                 id: true, // Ensure the `id` is explicitly included
                 name: true,
                 email: true,
+                password: true,
                 age: true,
                 country: true,
                 description: true,
                 role: true,
                 team: true,
                 invites: true,
-                password: true,
                 teamId: true,
             },
         });
