@@ -15,7 +15,7 @@ const TeamName: React.FC<{ teamId: number | null }> = ({ teamId }) => {
           const team = await TeamService.getTeamById(teamId);
           setTeamName(team.name);
         } catch (err) {
-          console.error(`Failed to fetch team for ID ${teamId}`, err);
+          console.error("Failed to fetch team for ID", teamId, err);
           setTeamName("Error fetching team");
         }
       } else {

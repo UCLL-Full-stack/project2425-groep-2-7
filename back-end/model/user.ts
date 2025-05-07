@@ -107,6 +107,10 @@ export class User {
             teamId: this.teamId,
         };
     }
+    toPublicObject() {
+        const { password, ...publicData } = this.toPlainObject(); // assuming toPlainObject() returns all props
+        return publicData;
+    }
 
     equals(user: {
         age: number;

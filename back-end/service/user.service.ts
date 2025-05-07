@@ -3,15 +3,20 @@ import userDb from '../repository/user.db';
 import { AuthenticationResponse, Role, UserInput } from '../types';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
-import { error } from 'console';
+import * as Sentry from "@sentry/node"; 
 
-const getAllPlayers = async (): Promise<User[]> => {
+
+const getAllPlayers = async (): Promise<object[]> => {
     const users = await userDb.getAllPlayers();
-    if (users.length == 0) {
+    if (users.length === 0) {
         throw new Error('No players found');
     }
-    return users;
+
+    const sanitizedUsers = users.map(user => user.toPublicObject());
+    return sanitizedUsers;
 };
+
+
 const addPlayer = async ({
     age,
     name,
@@ -22,7 +27,7 @@ const addPlayer = async ({
 }: UserInput): Promise<User> => {
     const player = new User({ age, name, country, description, email, password, role: 'Player' });
 
-    const players = await getAllPlayers();
+    const players = await userDb.getAllPlayers();
     for (const existingPlayer of players) {
         if (existingPlayer.equals(player.toPlainObject())) {
             throw new Error('Player already exists');
@@ -45,18 +50,21 @@ const addPlayer = async ({
     return userDb.addPlayer(hasheduser.toPlainObject());
 };
 
-const getUserByEmail = async ({ email }: { email: string }): Promise<User> => {
+const getUserByEmail = async ({ email }: { email: string }): Promise<object> => {
     const user = await userDb.getUserByEmail(email);
 
     if (!user) {
         throw new Error(`User with email: ${email} does not exist`);
     }
-    return user;
+    return user.toPublicObject();
 };
 
 const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
-    const user = await getUserByEmail({ email });
-
+    const user = await userDb.getUserByEmail( email );
+    
+    if (!user) {
+        throw Error('No user with that email found.')
+    }
     const isValidPassword = await bcrypt.compare(password, user.getPassword());
     if (!isValidPassword) {
         throw new Error('incorrect password.');
