@@ -1,3 +1,4 @@
+import './instrument'; 
 import * as dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
@@ -9,11 +10,15 @@ import { teamRouter } from './controller/team.routes';
 import { tournamentRouter } from './controller/tournament.routes';
 import { expressjwt, UnauthorizedError } from 'express-jwt';
 import { validateIat } from './util/validateIat';
+import * as Sentry from "@sentry/node"; 
+import { sanitizeRequestBody } from './util/requestSanitizer'; 
+
 
 dotenv.config();
 
 const app = express();
 const port = process.env.APP_PORT || 3000;
+
 
 // Ensure JWT_SECRET is defined
 if (!process.env.JWT_SECRET) {
@@ -54,6 +59,7 @@ app.use(
             '/players/login',
             '/players/register',
             '/status',
+            '/debug-sentry'
         ],
     })
 );
@@ -63,7 +69,8 @@ app.use((req, res, next) => {
         '/players/login',
         '/players/register',
         '/status',
-        '/api-docs'
+        '/api-docs',
+        '/debug-sentry'
     ];
 
     const isPublic = publicPaths.some(path => req.path.startsWith(path));
@@ -75,6 +82,9 @@ app.use((req, res, next) => {
     return validateIat()(req, res, next);
 });
 
+app.get("/debug-sentry", function mainHandler(req, res) {
+    throw new Error("My first Sentry error!");
+  });
 
 // Routes
 app.use('/players', userRouter);
@@ -86,15 +96,45 @@ app.get('/status', (req: Request, res: Response) => {
     res.json({ message: 'Back-end is running...' });
 });
 
+
+Sentry.setupExpressErrorHandler(app);
+
 // Error-handling middleware
 app.use((err: Error | UnauthorizedError, req: Request, res: Response, next: NextFunction) => {
     if (err.name === 'UnauthorizedError') {
+        const protectedPaths = ['/players', '/teams', '/tournaments'];
+        const isProtectedPath = protectedPaths.some(path => req.path.startsWith(path));
+
+        if (isProtectedPath) {
+            Sentry.captureMessage(`Unauthenticated access attempt to ${req.path}`, {
+                level: 'warning',
+                extra: {
+                    method: req.method,
+                    ip: req.ip,
+                    userAgent: req.headers['user-agent'],
+                    sanitizedBody: sanitizeRequestBody(req.body), // 🛡️ Add this line
+                },
+            });
+        }
+
         return res.status(401).json({ status: 'unauthorized', message: err.message });
     }
 
-    console.error('Application Error:', err.message); // Log other errors for debugging
+    // Capture other errors with sanitized request info
+    Sentry.captureException(err, {
+        extra: {
+            path: req.originalUrl,
+            method: req.method,
+            ip: req.ip,
+            userAgent: req.headers['user-agent'],
+            sanitizedBody: sanitizeRequestBody(req.body), // 🛡️ Add this line
+        },
+    });
+
+    console.error('Application Error:', err.message);
     res.status(400).json({ status: 'application error', message: err.message });
 });
+
 
 // Server start
 app.listen(port, () => {

@@ -2,6 +2,7 @@ import { Invite } from "../model/invite"
 import inviteDb from "../repository/invite.db"
 import teamService from "../service/team.service"
 import userService from "../service/user.service"
+import * as Sentry from "@sentry/node"; 
 
 const addInvite = async (inviteData: {
     teamId: number,
@@ -20,6 +21,7 @@ const addInvite = async (inviteData: {
     try {
         return inviteDb.createInvite(inviteData)
     } catch (error) {
+        Sentry.captureException(error)
         console.error("Error while creating invite");
         throw error
     }
