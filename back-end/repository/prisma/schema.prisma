@@ -19,6 +19,8 @@ model User {
   teamId      Int? // Relation to Team
   team        Team?    @relation(fields: [teamId], references: [id])
   invites     Invite[] // User can have multiple invites
+  resetToken  String?
+  resetTokenExpires DateTime?
 }
 
 model Team {

@@ -349,4 +349,28 @@ userRouter.delete('/invite/:inviteId', async (req: Request, res: Response, next:
     }
 });
 
+userRouter.post('/password-forgotten', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email} = req.body as { email: string};
+        const msg = await userService.passwordForgotten({email});
+        res.json({message:msg});
+        console.log('route works')
+    } catch(err) {
+        next(err);
+    }
+});
+
+userRouter.post('/password-reset', async (req, res, next) => {
+    try {
+        const { token, newPassword } = req.body as {
+            token: string;
+            newPassword: string;
+        };
+        const msg = await userService.passwordReset({ token, newPassword });
+        res.json({ message: msg });
+    } catch (err) {
+        next(err);
+    }
+});
+
 export { userRouter };

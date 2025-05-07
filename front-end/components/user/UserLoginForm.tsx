@@ -105,6 +105,15 @@ const LoginOverview = () => {
           >
             Login
           </button>
+          <p className="mt-4 text-sm text-center">
+
+
+                    <a href="/password-forgotten" className="text-white-600 hover:underline">
+                        Password forgotten
+                    </a>
+
+
+                </p>
         </form>
       </main>
     </>

@@ -21,18 +21,8 @@ const isPrismaError = (
 const getAllPlayers = async (): Promise<User[]> => {
     try {
         const userprisma = await database.user.findMany({
-            select: {
-                id: true, // Ensure the `id` is explicitly included
-                name: true,
-                email: true,
-                password: true,
-                age: true,
-                country: true,
-                description: true,
-                role: true,
-                team: true,
-                invites: true,
-                teamId: true,
+            where: {
+                role: 'Player',
             },
         });
         return userprisma.map((userprisma) => User.from(userprisma));
@@ -122,5 +112,110 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     }
 };
 
+const storeResetToken = async (email: string, token: string, expires: Date): Promise<void> => {
+
+
+    await database.user.update({
+        where: { email },
+        data: { resetToken: token, resetTokenExpires: expires },
+    });
+
+
+};
+
+
+
+
+
+// repository/user.db.ts
+
+
+
+
+
+export const findByResetToken = async (
+
+
+    token: string
+
+
+): Promise<{ email: string; resetTokenExpires: Date } | null> => {
+
+
+    const rec = await database.user.findFirst({
+
+
+        where: { resetToken: token },
+
+
+        select: { email: true, resetTokenExpires: true },
+
+
+    });
+
+
+    // If no record, or expiry is null, bail out
+
+
+    if (!rec || rec.resetTokenExpires === null) {
+
+
+        return null;
+
+
+    }
+
+
+    // Now TypeScript knows resetTokenExpires is a Date
+
+
+    return {
+
+
+        email: rec.email,
+
+
+        resetTokenExpires: rec.resetTokenExpires,
+
+
+    };
+
+
+};
+
+
+
+
+
+const updatePassword = async (email: string, hashedPassword: string): Promise<void> => {
+
+
+    await database.user.update({
+
+
+        where: { email },
+
+
+        data: { password: hashedPassword },
+
+
+    });
+
+
+};
+
+
+
+
+
+const clearResetToken = async (email: string): Promise<void> => {
+    await database.user.update({
+        where: { email },
+        data: { resetToken: null, resetTokenExpires: null },
+    });
+
+
+};
+
 // Export the updated object
-export default { getAllPlayers, addPlayer, getPlayerById, getUserByEmail };
+export default { getAllPlayers, addPlayer, getPlayerById, getUserByEmail, storeResetToken, findByResetToken, updatePassword, clearResetToken };

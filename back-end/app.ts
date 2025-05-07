@@ -59,7 +59,9 @@ app.use(
             '/players/login',
             '/players/register',
             '/status',
-            '/debug-sentry'
+            '/debug-sentry',
+            '/players/password-forgotten',
+            '/players/password-reset',
         ],
     })
 );
@@ -70,7 +72,10 @@ app.use((req, res, next) => {
         '/players/register',
         '/status',
         '/api-docs',
-        '/debug-sentry'
+        '/debug-sentry',
+        '/players/password-forgotten',
+        '/players/password-reset',
+        '/players'
     ];
 
     const isPublic = publicPaths.some(path => req.path.startsWith(path));

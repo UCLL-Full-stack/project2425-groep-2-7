@@ -145,6 +145,49 @@ const loginUser = (loginData: { email: string; password: string }) => {
   });
 };
 
+export function passwordForgotten(email: string) {
+
+
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/players/password-forgotten`, {
+
+
+      method: 'POST',
+
+
+      headers: { 'Content-Type': 'application/json' },
+
+
+      body: JSON.stringify({ email }),
+
+
+  });
+
+
+}
+
+
+
+
+
+export function passwordReset(token: string, newPassword: string) {
+
+
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/players/password-reset`, {
+
+
+      method: 'POST',
+
+
+      headers: { 'Content-Type': 'application/json' },
+
+
+      body: JSON.stringify({ token, newPassword }),
+
+
+  });
+
+
+}
 const UserService = {
   getAllUsers,
   registerUser,
@@ -154,6 +197,8 @@ const UserService = {
   getUserByEmail,
   getInvites,
   deleteInvite,
+  passwordForgotten,
+  passwordReset
 };
 
 export default UserService;
